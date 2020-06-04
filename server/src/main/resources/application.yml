@@ -2,3 +2,6 @@ spring:
   data:
     mongodb:
       auto-index-creation: true
+firebase:
+  databaseURL: https://hwc-personal.firebaseio.com
+  serviceAccount: ${HOME}/serviceAccountKey.json

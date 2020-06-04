@@ -16,7 +16,7 @@ const useCollectCar = (collected) => {
             
             axios({
                 method: collected.collected ? 'POST' : 'DELETE',
-                url: `http://localhost:8080/api/collection/${collected.carId}`
+                url: `${process.env.REACT_APP_API_URL}/api/collection/${collected.carId}`
             }).then(res => {
 
                 setLoading(false);

@@ -16,7 +16,7 @@ const useFavoriteCar = (favorited) => {
             
             axios({
                 method: favorited.favorited ? 'POST' : 'DELETE',
-                url: `http://localhost:8080/api/favorite/${favorited.carId}`
+                url: `${process.env.REACT_APP_API_URL}/api/favorite/${favorited.carId}`
             }).then(res => {
 
                 setLoading(false);

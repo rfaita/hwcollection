@@ -92,36 +92,6 @@ const Car = (props) => {
   const { loadingFavorite, errorFavorite } = useFavoriteCar(favorited);
   const { loadingCollection, errorCollection } = useCollectCar(collected);
 
-  const countryMap =
-  {
-    "Malaysia": ["malaysia", "malayxia", "malayisa", "malasyia", "malasya", "mayalsia", "malasysia", "malysia", "malayaia", "malasia", "maylasia", "malaysa"],
-    "Indonesia": ["indonesia", "indoniesia", "indoneisa"],
-    "Thailand": ["thailand", "thialand", "tahiland", "thaiand", "thailad"],
-    "China": ["china"],
-    "Hong-Kong": ["hon", "hk"],
-    "USA": ["usa", "u.s.", "united"],
-    "Mexico": ["mexico", "méxico"],
-    "Canada": ["canada"],
-    "France": ["france"],
-    "Italy": ["italy"],
-    "India": ["india"],
-    "Vietnam": ["vietnam"]
-  };
-
-  function getCountry(country) {
-    if (!!country) {
-      for (let index in countryMap) {
-        for (let countryMapping of countryMap[index]) {
-          if (country.toLowerCase().indexOf(countryMapping) > -1) {
-            return index;
-          }
-        }
-      }
-    } else {
-      return "Malaysia";
-    }
-  }
-
   function favorite() {
 
     if (!favorited.favorited) {
@@ -157,14 +127,13 @@ const Car = (props) => {
             image={"imgs/default_car.png"}
             title={props.car.name}
           />}
-        <Chip label={props.car.key} className={classes.key} color="primary"></Chip>
-        {!!props.car.year ?
-          <Chip label={props.car.year} className={classes.year} color="primary"></Chip> : ''}
+        {!!props.car.keys && <Chip label={props.car.key} className={classes.key} color="primary"></Chip>}
+        {!!props.car.year && <Chip label={props.car.year} className={classes.year} color="primary"></Chip>}
         {!!props.car.number ? !!props.car.numberTotal ?
           <Chip label={`${props.car.number} / ${props.car.numberTotal}`} className={classes.number} color="primary"></Chip> :
           <Chip label={props.car.number} className={classes.number} color="primary"></Chip> : ''}
-        <Tooltip title={getCountry(props.car.country)}>
-          <img alt="country" className={classes.country} src={`imgs/${getCountry(props.car.country).toLowerCase()}.png`} />
+        <Tooltip title={props.car.country}>
+          <img alt="country" className={classes.country} src={`imgs/${props.car.country?.toLowerCase()}.png`} />
         </Tooltip>
         <CardContent className={classes.body}>
           <Typography gutterBottom variant="h5" component="h2" className={classes.name}>
@@ -175,28 +144,28 @@ const Car = (props) => {
             <Typography variant="subtitle1" color="textSecondary" className={classes.series}>
               {props.car.series}
             </Typography>
-            {!!props.car.seriesNumber ?
+            {!!props.car.seriesNumber &&
               <Typography variant="subtitle1" color="textSecondary" className={classes.seriesNumber}>
                 {props.car.seriesNumber} / {props.car.seriesTotalNumber}
-              </Typography> : ''}
+              </Typography>}
           </div>
           <div className={classes.clearBoth}>
-            {!!props.car.color ?
+            {!!props.car.color &&
               <Typography variant="body2" color="textSecondary" component="div">
                 Color: <Typography variant="body2" color="textPrimary" component="span">{props.car.color}</Typography>
-              </Typography> : ''}
-            {!!props.car.baseColorType ?
+              </Typography>}
+            {!!props.car.baseColorType &&
               <Typography variant="body2" color="textSecondary" component="div">
                 Base Color / Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.baseColorType}</Typography>
-              </Typography> : ''}
-            {!!props.car.wheelType ?
+              </Typography>}
+            {!!props.car.wheelType &&
               <Typography variant="body2" color="textSecondary" component="div">
                 Wheel Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.wheelType}</Typography>
-              </Typography> : ''}
-            {!!props.car.tampo ?
+              </Typography>}
+            {!!props.car.tampo &&
               <Typography variant="body2" color="textSecondary" component="div">
                 Tampo: <Typography variant="body2" color="textPrimary" component="span">{props.car.tampo}</Typography>
-              </Typography> : ''}
+              </Typography>}
           </div>
         </CardContent>
       </CardActionArea>

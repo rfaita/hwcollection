@@ -17,27 +17,32 @@ const useCarsSearch = (query, page) => {
         setError(false);
         let cancel;
 
-        axios({
-            method: 'GET',
-            url: 'http://localhost:8080/api/car',
-            params: { query, page, size: 20 },
-            cancelToken: new axios.CancelToken(c => cancel = c)
-        }).then(res => {
-            setCars(prevCars => {
-                return [...prevCars, ...res.data.content];
-            });
-            setHasMore(!res.data.last)
-            setLoading(false);
-            
-        }).catch(e => {
-            setError(true);
-            setLoading(false);
-            if (axios.isCancel(e)) {
-                return;
-            }
-        });
+        if (!!query && query.length >= 2) {
 
-        return () => cancel();
+            axios({
+                method: 'GET',
+                url: `${process.env.REACT_APP_API_URL}/api/car`,
+                params: { query, page, size: 20 },
+                cancelToken: new axios.CancelToken(c => cancel = c)
+            }).then(res => {
+                setCars(prevCars => {
+                    return [...prevCars, ...res.data.content];
+                });
+                setHasMore(!res.data.last)
+                setLoading(false);
+
+            }).catch(e => {
+                setError(true);
+                setLoading(false);
+                if (axios.isCancel(e)) {
+                    return;
+                }
+            });
+
+            return () => cancel();
+        }
+        return () => { };
+
     }, [query, page]);
 
     return { loading, error, cars, hasMore };

@@ -97,14 +97,14 @@ const DefaultAppBar = (props) => {
                     <MenuIcon />
                 </IconButton>
                 <Typography className={classes.title} variant="h6" noWrap>
-                    Material-UI
+                    HW Collection
                 </Typography>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
                     </div>
                     <InputBase
-                        placeholder="Search…"
+                        placeholder="Search for cars…"
                         classes={{
                             root: classes.inputRoot,
                             input: classes.inputInput,

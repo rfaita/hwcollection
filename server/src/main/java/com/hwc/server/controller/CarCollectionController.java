@@ -19,7 +19,7 @@ public class CarCollectionController {
 
     @DeleteMapping("/{carId}")
     public void removeFromCollection(@PathVariable String carId) {
-         service.removeFromCollection("123", carId);
+        service.removeFromCollection("123", carId);
     }
 
 }

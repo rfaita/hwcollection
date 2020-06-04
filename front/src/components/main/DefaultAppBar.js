@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,6 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { LoginContext } from '../../providers/LoginProvider';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -85,6 +87,8 @@ const DefaultAppBar = (props) => {
 
     const classes = useStyles();
 
+    const user = useContext(LoginContext);
+
     return (
         <AppBar position="fixed">
             <Toolbar>
@@ -133,7 +137,9 @@ const DefaultAppBar = (props) => {
                         onClick={props.handleProfileMenuOpen}
                         color="inherit"
                     >
-                        <AccountCircle />
+                        {!!user.photoURL 
+                        ? <Avatar alt={user.displayName} src={user.photoURL} />
+                        : <AccountCircle />}
                     </IconButton>
                 </div>
                 <div className={classes.sectionMobile}>

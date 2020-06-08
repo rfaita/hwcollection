@@ -8,13 +8,16 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { LoginContext } from '../../providers/LoginProvider';
+
+import { Link } from "react-router-dom";
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -100,9 +103,11 @@ const DefaultAppBar = (props) => {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography className={classes.title} variant="h6" noWrap>
-                    HW Collection
-                </Typography>
+                <Link to={"/"}>
+                    <Typography className={classes.title} variant="h6" noWrap>
+                        HW Collection
+                    </Typography>
+                </Link>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
                         <SearchIcon />
@@ -119,16 +124,16 @@ const DefaultAppBar = (props) => {
                 </div>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
-                    <IconButton aria-label="show 4 new mails" color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <MailIcon />
-                        </Badge>
-                    </IconButton>
-                    <IconButton aria-label="show 17 new notifications" color="inherit">
-                        <Badge badgeContent={17} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                    <Link to={"/favorites"}>
+                        <IconButton aria-label="favorites" color="inherit">
+                            <FavoriteIcon />
+                        </IconButton>
+                    </Link>
+                    <Link to={"/collections"}>
+                        <IconButton aria-label="collection" color="inherit">
+                            <ListAltIcon />
+                        </IconButton>
+                    </Link>
                     <IconButton
                         edge="end"
                         aria-label="account of current user"
@@ -137,9 +142,9 @@ const DefaultAppBar = (props) => {
                         onClick={props.handleProfileMenuOpen}
                         color="inherit"
                     >
-                        {!!user.photoURL 
-                        ? <Avatar alt={user.displayName} src={user.photoURL} />
-                        : <AccountCircle />}
+                        {!!user.photoURL
+                            ? <Avatar alt={user.displayName} src={user.photoURL} />
+                            : <AccountCircle />}
                     </IconButton>
                 </div>
                 <div className={classes.sectionMobile}>

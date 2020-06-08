@@ -4,6 +4,7 @@ import com.hwc.server.component.SecurityHelper;
 import com.hwc.server.model.CarFavorite;
 import com.hwc.server.service.CarFavoriteService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,13 @@ public class CarFavoriteController {
     @DeleteMapping("/{carId}")
     public void removeFavorite(@PathVariable String carId) {
         service.removeFavorite(securityHelper.getUserId(), carId);
+    }
+
+    @GetMapping("/{userId}")
+    public Page<CarFavorite> findAllByUserId(@PathVariable String userId,
+                                             @RequestParam("page") int page,
+                                             @RequestParam("size") int size) {
+        return service.findAllByUserId(userId, page, size);
     }
 
 

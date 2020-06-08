@@ -2,9 +2,12 @@ package com.hwc.server.service;
 
 import com.hwc.server.model.Car;
 import com.hwc.server.model.CarCollection;
+import com.hwc.server.model.CarFavorite;
 import com.hwc.server.repository.CarCollectionRepository;
 import com.hwc.server.repository.CarRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -62,6 +65,10 @@ public class CarCollectionService {
             }
         }
 
+    }
+
+    public Page<CarCollection> findAllByUserId(String userId, int page, int size) {
+        return carCollectionRepository.findAllByUserId(userId, PageRequest.of(page, size));
     }
 
 }

@@ -1,32 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-const useCarsSearch = (query, page) => {
+const useCarsCollection = (userId, page) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [cars, setCars] = useState([]);
     const [hasMore, setHasMore] = useState(false);
 
-    const history = useHistory();
-
     useEffect(() => {
         setCars([]);
-        history.push("/");
-    }, [query])
+    }, [userId])
 
     useEffect(() => {
         setLoading(true);
         setError(false);
         let cancel;
 
-        if (!!query && query.length >= 2) {
+        if (!!userId) {
 
             axios({
                 method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/api/car`,
-                params: { query, page, size: 20 },
+                url: `${process.env.REACT_APP_API_URL}/api/collection/${userId}`,
+                params: { page, size: 20 },
                 cancelToken: new axios.CancelToken(c => cancel = c)
             }).then(res => {
                 setCars(prevCars => {
@@ -47,9 +43,9 @@ const useCarsSearch = (query, page) => {
         }
         return () => { };
 
-    }, [query, page]);
+    }, [userId, page]);
 
     return { loading, error, cars, hasMore };
 }
 
-export default useCarsSearch;
+export default useCarsCollection;

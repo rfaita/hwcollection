@@ -8,6 +8,13 @@ import Car from './Car';
 import useCarsSearch from './hooks/useCarsSearch';
 import { LoginContext } from './providers/LoginProvider';
 
+import {
+    Switch,
+    Route,
+    withRouter
+} from "react-router-dom";
+import Collection from './Collection';
+
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
@@ -18,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Main(props) {
+const Main = (props) => {
     const classes = useStyles();
 
     const [query, setQuery] = useState('');
@@ -33,7 +40,7 @@ export default function Main(props) {
 
 
     const observer = useRef();
-    const lastBookElementRef = useCallback(node => {
+    const lastCarElementRef = useCallback(node => {
         if (loading) {
             return;
         }
@@ -95,20 +102,32 @@ export default function Main(props) {
                 anchorEl={anchorEl} isMenuOpen={isMenuOpen}
                 handleMenuClose={handleMenuClose}
             />
+
             <div className={classes.main}>
-
-                <Grid container spacing={3}>
-                    {cars.map((car, index) => {
-                        return (
-                            <Grid ref={cars.length == index + 1 ? lastBookElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                <Car car={car} userId={user.uid} />
-                            </Grid>
-                        );
-                    })}
-                </Grid>
-
+                <Switch>
+                    <Route path="/collections">
+                        <Collection />
+                    </Route>
+                    <Route path="/favorites">
+                        <p>favorites</p>
+                    </Route>
+                    <Route path="/">
+                        <Grid container spacing={3}>
+                            {cars.map((car, index) => {
+                                return (
+                                    <Grid ref={cars.length == index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                                        <Car car={car} userId={user.uid} />
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </Route>
+                </Switch>
             </div>
-        </div>
+        </div >
+
 
     );
 }
+
+export default withRouter(Main)

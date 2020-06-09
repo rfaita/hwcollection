@@ -127,7 +127,7 @@ const Car = (props) => {
             image={"imgs/default_car.png"}
             title={props.car.name}
           />}
-        {!!props.car.keys && <Chip label={props.car.key} className={classes.key} color="primary"></Chip>}
+        {!!props.car.key && <Chip label={props.car.key} className={classes.key} color="primary"></Chip>}
         {!!props.car.year && <Chip label={props.car.year} className={classes.year} color="primary"></Chip>}
         {!!props.car.number ? !!props.car.numberTotal ?
           <Chip label={`${props.car.number} / ${props.car.numberTotal}`} className={classes.number} color="primary"></Chip> :

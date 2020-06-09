@@ -19,7 +19,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     main: {
-        marginTop: 80,
+        marginRight: 10,
+        marginLeft: 10,
+        marginTop: 75,
         flexGrow: 1,
     }
 }));

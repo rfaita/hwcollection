@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
 import useCarsCollection from './hooks/useCarsCollection';
 import { LoginContext } from './providers/LoginProvider';
-import { Grid } from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 import Car from './Car';
 
 const Collection = (props) => {
@@ -35,15 +35,18 @@ const Collection = (props) => {
     }, [loading, hasMore]);
 
     return (
-        <Grid container spacing={3}>
-            {cars.map((car, index) => {
-                return (
-                    <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                        <Car car={car.car} userId={user.uid} />
-                    </Grid>
-                );
-            })}
-        </Grid>
+        <div>
+            <Grid container spacing={2}>
+                {cars.map((car, index) => {
+                    return (
+                        <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                            <Car car={car.car} userId={user.uid} />
+                        </Grid>
+                    );
+                })}
+            </Grid>
+            {loading && <LinearProgress />}
+        </div>
     );
 
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useRef, useCallback, useEffect } from 'react';
 import { LoginContext } from './providers/LoginProvider';
-import { Grid } from '@material-ui/core';
+import { Grid, LinearProgress } from '@material-ui/core';
 import Car from './Car';
 import useCarsSearch from './hooks/useCarsSearch';
 import { useLocation } from 'react-router-dom';
@@ -10,6 +10,7 @@ const useQuery = () => {
 }
 
 const Search = (props) => {
+
 
     const { user } = useContext(LoginContext);
 
@@ -47,15 +48,19 @@ const Search = (props) => {
     }, [loading, hasMore]);
 
     return (
-        <Grid container spacing={3}>
-            {cars.map((car, index) => {
-                return (
-                    <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                        <Car car={car} userId={user.uid} />
-                    </Grid>
-                );
-            })}
-        </Grid>
+        <div>
+            <Grid container spacing={1}>
+                {cars.map((car, index) => {
+                    return (
+                        <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                            <Car car={car} userId={user.uid} />
+                        </Grid>
+                    );
+                })}
+
+            </Grid>
+            {loading && <LinearProgress />}
+        </div>
     );
 
 }

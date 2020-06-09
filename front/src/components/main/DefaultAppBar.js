@@ -89,7 +89,7 @@ const DefaultAppBar = (props) => {
 
     const classes = useStyles();
 
-    const {user} = useContext(LoginContext);
+    const { user } = useContext(LoginContext);
 
     return (
         <AppBar position="fixed">

@@ -1,10 +1,10 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
-import useCarsCollection from './hooks/useCarsCollection';
+import useCarsFavorite from './hooks/useCarsFavorite';
 import { LoginContext } from './providers/LoginProvider';
 import { Grid } from '@material-ui/core';
 import Car from './Car';
 
-const Collection = (props) => {
+const Favorite = (props) => {
 
     const [page, setPage] = useState(0);
 
@@ -13,7 +13,7 @@ const Collection = (props) => {
     const {
         loading, error,
         cars, hasMore
-    } = useCarsCollection(user.uid, page);
+    } = useCarsFavorite(user.uid, page);
 
 
     const observer = useRef();
@@ -48,4 +48,4 @@ const Collection = (props) => {
 
 }
 
-export default Collection;
+export default Favorite;

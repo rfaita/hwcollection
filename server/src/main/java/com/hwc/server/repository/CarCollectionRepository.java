@@ -1,6 +1,5 @@
 package com.hwc.server.repository;
 
-import com.hwc.server.model.Car;
 import com.hwc.server.model.CarCollection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

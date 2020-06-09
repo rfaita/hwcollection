@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { LoginContext } from '../providers/LoginProvider';
 
 const useCarsCollection = (userId, page) => {
 
@@ -7,6 +8,7 @@ const useCarsCollection = (userId, page) => {
     const [error, setError] = useState(false);
     const [cars, setCars] = useState([]);
     const [hasMore, setHasMore] = useState(false);
+    const { token } = useContext(LoginContext);
 
     useEffect(() => {
         setCars([]);
@@ -23,6 +25,7 @@ const useCarsCollection = (userId, page) => {
                 method: 'GET',
                 url: `${process.env.REACT_APP_API_URL}/api/collection/${userId}`,
                 params: { page, size: 20 },
+                headers: { 'Authorization': `Bearer ${token}` },
                 cancelToken: new axios.CancelToken(c => cancel = c)
             }).then(res => {
                 setCars(prevCars => {

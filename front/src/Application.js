@@ -6,11 +6,10 @@ import Main from './Main';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 export default function Application() {
-    const user = useContext(LoginContext);
+    const { token } = useContext(LoginContext);
     return (
-
-        !user ? <Login /> :
-            <Router >
+        !token ? <Login />
+            : <Router >
                 <Main />
             </Router >
 

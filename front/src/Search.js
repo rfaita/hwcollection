@@ -1,20 +1,32 @@
-import React, { useState, useContext, useRef, useCallback } from 'react';
-import useCarsCollection from './hooks/useCarsCollection';
+import React, { useState, useContext, useRef, useCallback, useEffect } from 'react';
 import { LoginContext } from './providers/LoginProvider';
 import { Grid } from '@material-ui/core';
 import Car from './Car';
+import useCarsSearch from './hooks/useCarsSearch';
+import { useLocation } from 'react-router-dom';
 
-const Collection = (props) => {
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+}
 
-    const [page, setPage] = useState(0);
+const Search = (props) => {
 
     const { user } = useContext(LoginContext);
+
+    const [query, setQuery] = useState('');
+    const [page, setPage] = useState(0);
+
+    const queryParam = useQuery();
+
+    useEffect(() => {
+        setQuery(queryParam.get("q"));
+        setPage(0);
+    }, [queryParam.get("q")])
 
     const {
         loading, error,
         cars, hasMore
-    } = useCarsCollection(user.uid, page);
-
+    } = useCarsSearch(query, page);
 
     const observer = useRef();
     const lastCarElementRef = useCallback(node => {
@@ -39,7 +51,7 @@ const Collection = (props) => {
             {cars.map((car, index) => {
                 return (
                     <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                        <Car car={car.car} userId={user.uid} />
+                        <Car car={car} userId={user.uid} />
                     </Grid>
                 );
             })}
@@ -48,4 +60,5 @@ const Collection = (props) => {
 
 }
 
-export default Collection;
+
+export default Search;

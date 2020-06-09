@@ -1,24 +1,29 @@
 import React, { useState, useEffect, createContext } from "react";
 import { auth } from "../services/firebase";
-import axios from 'axios';
 
-export const LoginContext = createContext({ user: null });
+export const LoginContext = createContext({ user: null, token: null });
 
 const LoginProvider = (props) => {
     const [user, setUser] = useState();
+    const [token, setToken] = useState();
+
 
     useEffect(() => {
         auth.onAuthStateChanged(userAuth => {
-            setUser(userAuth);
-            userAuth.getIdToken().then((token) => {
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            });
+            if (!!userAuth) {
+                userAuth.getIdToken().then((token) => {
+                    setUser(userAuth);
+                    setToken(token);
+                });
+            } else {
+                setUser(null);
+            }
         });
 
     }, []);
 
     return (
-        <LoginContext.Provider value={user}>
+        <LoginContext.Provider value={{ user, token }}>
             {props.children}
         </LoginContext.Provider>
     );

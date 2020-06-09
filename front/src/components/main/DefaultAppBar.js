@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 
 import ListAltIcon from '@material-ui/icons/ListAlt';
@@ -90,7 +89,7 @@ const DefaultAppBar = (props) => {
 
     const classes = useStyles();
 
-    const user = useContext(LoginContext);
+    const {user} = useContext(LoginContext);
 
     return (
         <AppBar position="fixed">

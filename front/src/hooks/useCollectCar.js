@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import axios from 'axios';
+import { LoginContext } from '../providers/LoginProvider';
 
 const useCollectCar = (collected) => {
 
@@ -7,6 +8,8 @@ const useCollectCar = (collected) => {
     const [error, setError] = useState(false);
 
     const didMount = useRef(false);
+
+    const { token } = useContext(LoginContext);
 
 
     useEffect(() => {
@@ -16,6 +19,7 @@ const useCollectCar = (collected) => {
             
             axios({
                 method: collected.collected ? 'POST' : 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` },
                 url: `${process.env.REACT_APP_API_URL}/api/collection/${collected.carId}`
             }).then(res => {
 

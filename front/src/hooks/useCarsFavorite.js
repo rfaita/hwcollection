@@ -1,32 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import { LoginContext } from '../providers/LoginProvider';
 
-const useCarsSearch = (query, page) => {
+const useCarsFavorite = (userId, page) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [cars, setCars] = useState([]);
     const [hasMore, setHasMore] = useState(false);
-
-    const history = useHistory();
+    const { token } = useContext(LoginContext);
 
     useEffect(() => {
         setCars([]);
-        history.push("/");
-    }, [query])
+    }, [userId])
 
     useEffect(() => {
         setLoading(true);
         setError(false);
         let cancel;
 
-        if (!!query && query.length >= 2) {
+        if (!!userId) {
 
             axios({
                 method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/api/car`,
-                params: { query, page, size: 20 },
+                url: `${process.env.REACT_APP_API_URL}/api/favorite/${userId}`,
+                params: { page, size: 20 },
+                headers: { 'Authorization': `Bearer ${token}` },
                 cancelToken: new axios.CancelToken(c => cancel = c)
             }).then(res => {
                 setCars(prevCars => {
@@ -47,9 +46,9 @@ const useCarsSearch = (query, page) => {
         }
         return () => { };
 
-    }, [query, page]);
+    }, [userId, page]);
 
     return { loading, error, cars, hasMore };
 }
 
-export default useCarsSearch;
+export default useCarsFavorite;

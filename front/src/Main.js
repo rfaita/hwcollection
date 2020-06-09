@@ -1,12 +1,9 @@
-import React, { useState, useRef, useCallback, useContext } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DefaultMenu from './components/main/DefaultMenu';
 import MobileMenu from './components/main/MobileMenu';
 import DefaultAppBar from './components/main/DefaultAppBar';
-import Grid from '@material-ui/core/Grid';
-import Car from './Car';
-import useCarsSearch from './hooks/useCarsSearch';
-import { LoginContext } from './providers/LoginProvider';
+import { useHistory } from 'react-router-dom';
 
 import {
     Switch,
@@ -14,6 +11,8 @@ import {
     withRouter
 } from "react-router-dom";
 import Collection from './Collection';
+import Favorite from './Favorite';
+import Search from './Search';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -28,38 +27,22 @@ const useStyles = makeStyles((theme) => ({
 const Main = (props) => {
     const classes = useStyles();
 
-    const [query, setQuery] = useState('');
-    const [page, setPage] = useState(0);
+    const history = useHistory();
 
-    const user = useContext(LoginContext);
-
-    const {
-        loading, error,
-        cars, hasMore
-    } = useCarsSearch(query, page);
-
-
-    const observer = useRef();
-    const lastCarElementRef = useCallback(node => {
-        if (loading) {
-            return;
-        }
-        if (observer.current) {
-            observer.current.disconnect();
-        }
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && hasMore) {
-                setPage(prevPage => prevPage + 1);
-            }
-        });
-        if (node) {
-            observer.current.observe(node);
-        }
-    }, [loading, hasMore]);
+    let timeout = 0;
 
     const handleSearch = (e) => {
-        setQuery(e.target.value);
-        setPage(0);
+        const data = e.target.value;
+
+        if (!!timeout) {
+            clearTimeout(timeout)
+        };
+        timeout = setTimeout(() => {
+            if (!!data && data.length >= 3) {
+                history.push(`/search?q=${data}`);
+            }
+        }, 1000);
+
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -102,31 +85,23 @@ const Main = (props) => {
                 anchorEl={anchorEl} isMenuOpen={isMenuOpen}
                 handleMenuClose={handleMenuClose}
             />
-
             <div className={classes.main}>
                 <Switch>
+                    <Route exact path="/">
+                        <Collection />
+                    </Route>
                     <Route path="/collections">
                         <Collection />
                     </Route>
                     <Route path="/favorites">
-                        <p>favorites</p>
+                        <Favorite />
                     </Route>
-                    <Route path="/">
-                        <Grid container spacing={3}>
-                            {cars.map((car, index) => {
-                                return (
-                                    <Grid ref={cars.length == index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                        <Car car={car} userId={user.uid} />
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
+                    <Route path="/search">
+                        <Search />
                     </Route>
                 </Switch>
             </div>
         </div >
-
-
     );
 }
 

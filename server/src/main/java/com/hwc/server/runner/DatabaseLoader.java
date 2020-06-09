@@ -40,8 +40,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private String getCountry(String country) {
         if (!StringUtils.isEmpty(country)) {
-            for (String index : countryMap.keySet()){
-                for (String countryMapping : countryMap.get(index)){
+            for (String index : countryMap.keySet()) {
+                for (String countryMapping : countryMap.get(index)) {
                     if (country.toLowerCase().indexOf(countryMapping) > -1) {
                         return index;
                     }
@@ -77,7 +77,6 @@ public class DatabaseLoader implements CommandLineRunner {
         carRepository.saveAll(cars);
 
     }
-
 
 
 }

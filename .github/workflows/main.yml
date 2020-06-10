@@ -32,6 +32,6 @@ jobs:
           repository: hwcollections/web
           dockerfile: server/src/main/docker/Dockerfile
           path: server
-          build_args: JAR_FILE=server/target/app.jar,UTIL_DIR=server/src/main/docker
+          build_args: JAR_FILE=server/target/app.jar,UTIL_DIR=server/src/main/docker/
           username: ${{ secrets.HEROKU_EMAIL }}
           password: ${{ secrets.HEROKU_API_KEY }}

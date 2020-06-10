@@ -30,9 +30,9 @@ jobs:
         with:
           registry: registry.heroku.com
           repository: hwcollections/web
-          dockerfile: server/src/main/docker/Dockerfile
-          path: ./server
-          build_args: JAR_FILE=server/target/app.jar,UTIL_DIR=server/src/main/docker/
+          dockerfile: ./server/src/main/docker/Dockerfile
+          path: .
+          build_args: JAR_FILE=./server/target/app.jar,UTIL_DIR=./server/src/main/docker/
           username: ${{ secrets.HEROKU_EMAIL }}
           password: ${{ secrets.HEROKU_API_KEY }}
       - name: Login to Heroku Container registry

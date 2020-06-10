@@ -6,6 +6,8 @@ import com.hwc.server.model.Car;
 import com.hwc.server.repository.CarRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -20,6 +22,7 @@ import java.util.Map;
 public class DatabaseLoader implements CommandLineRunner {
 
     private final CarRepository carRepository;
+    private final ResourceLoader resourceLoader;
 
     private static final Map<String, String[]> countryMap = new HashMap<>();
 
@@ -54,14 +57,14 @@ public class DatabaseLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        File file = ResourceUtils.getFile("classpath:database.json");
+        Resource resource = resourceLoader.getResource("classpath:database.json");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        List<Car> cars = objectMapper.readValue(file, new TypeReference<List<Car>>() {
+        List<Car> cars = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Car>>() {
         });
 
-        carRepository.deleteAll();
+        //carRepository.deleteAll();
 
 
         cars.forEach(car -> {
@@ -72,9 +75,11 @@ public class DatabaseLoader implements CommandLineRunner {
             }
             car.setCountry(getCountry(car.getCountry()));
 
+            carRepository.save(car);
+
         });
 
-        carRepository.saveAll(cars);
+
 
     }
 

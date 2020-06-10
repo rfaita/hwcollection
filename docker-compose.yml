@@ -1,0 +1,27 @@
+version: "3.4"
+services:
+  mongodb:
+    image: mongo
+    networks:
+      - app
+
+  
+  backend:
+    build:
+      context: server
+      dockerfile: src/main/docker/Dockerfile
+      args:
+        JAR_FILE: target/app.jar
+        UTIL_DIR: src/main/docker/
+    ports:
+      - "9080:8080"
+    depends_on:
+      - mongodb
+    environment:
+      - JAVA_OPTS=-Xmx512m -Xms256m
+      - SPRING_DATA_MONGODB_HOST=mongodb
+    networks:
+      - app
+
+networks:
+  app:

@@ -9,8 +9,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 @Configuration
 @EnableConfigurationProperties
@@ -29,11 +31,19 @@ public class FirebaseConfig {
             FirebaseApp.getInstance();
         } catch (IllegalStateException e) {
             try {
-                InputStream inputStream = new FileInputStream(serviceAccount);
+                InputStream inputStream = null;
+                if (serviceAccount.contains(".json")) {
+                    inputStream = new FileInputStream(serviceAccount);
+                } else {
+                    inputStream = new ByteArrayInputStream(serviceAccount.getBytes(Charset.forName("UTF-8")));
+                }
 
                 try {
-                    FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(GoogleCredentials.fromStream(inputStream))
-                            .setDatabaseUrl(databaseURL).build();
+                    FirebaseOptions options =
+                            new FirebaseOptions.Builder()
+                                    .setCredentials(GoogleCredentials.fromStream(inputStream))
+                                    .setDatabaseUrl(databaseURL)
+                                    .build();
 
                     FirebaseApp.initializeApp(options);
                 } catch (Exception exception) {

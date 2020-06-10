@@ -19,10 +19,12 @@ const Search = (props) => {
 
     const queryParam = useQuery();
 
+    let q = queryParam.get("q")
+
     useEffect(() => {
-        setQuery(queryParam.get("q"));
+        setQuery(q);
         setPage(0);
-    }, [queryParam])
+    }, [q])
 
     const {
         loading, error,

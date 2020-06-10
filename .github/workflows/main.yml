@@ -24,6 +24,7 @@ jobs:
       - name: Build Maven
         run: cd server && mvn clean install -Pfull
         env:
+          REACT_APP_API_URL: 
           CI: false
       - name: Build and push Docker images
         uses: docker/build-push-action@v1.1.0

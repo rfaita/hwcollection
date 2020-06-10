@@ -22,4 +22,4 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: cd server && mvn -B clean install -DskipTests=true -Pfull --file pom.xml
+        run: cd server && mvn clean install -DskipTests=true -Pfull

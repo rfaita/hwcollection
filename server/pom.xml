@@ -81,11 +81,6 @@
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <image>
-                                <name>${heroku.registry}/${heroku.project}/web</name>
-                            </image>
-                        </configuration>
                     </plugin>
                     <plugin>
 
@@ -153,8 +148,6 @@
                         </executions>
                     </plugin>
 
-
-                  
                 </plugins>
             </build>
         </profile>

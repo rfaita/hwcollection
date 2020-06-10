@@ -21,9 +21,17 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build and Build Docker Image
-        run: cd server && mvn clean spring-boot:build-image -Pfull
+      - name: Build Maven
+        run: cd server && mvn clean install -Pfull
         env:
           CI: false
-      - name: Build with Docker
-        run: mvn spring-boot:build-image -Pfull
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1.1.0
+        with:
+          registry: registry.heroku.com
+          repository: hwcollections/web
+          dockerfile: server/src/main/docker/Dockerfile
+          path: server
+          build_args: JAR_FILE=server/target/app.jar,UTIL_DIR=server/src/main/docker
+          username: ${{ secrets.HEROKU_EMAIL }}
+          password: ${{ secrets.HEROKU_API_KEY }}

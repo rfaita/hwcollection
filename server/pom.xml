@@ -20,6 +20,8 @@
         <node.version>v14.4.0</node.version>
         <npm.version>v6.14.5</npm.version>
         <frontend-maven-plugin.version>1.10.0</frontend-maven-plugin.version>
+        <heroku.registry>registry.heroku.com</heroku.registry>
+        <heroku.project>hwcollections</heroku.project>
     </properties>
 
     <dependencies>
@@ -144,6 +146,31 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+
+
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.13</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>${heroku.registry}</repository>
+                            <tag>${heroku.project}/web</tag>
+                            <dockerfile>src/main/docker/Dockerfile</dockerfile>
+                            <buildArgs>
+                                <contextDirectory>.</contextDirectory>
+                                <UTIL_DIR>src/main/docker</UTIL_DIR>
+                                <JAR_FILE>target/app.jar</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>

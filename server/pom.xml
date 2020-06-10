@@ -81,6 +81,11 @@
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <image>
+                                <name>${heroku.registry}/${heroku.project}/web</name>
+                            </image>
+                        </configuration>
                     </plugin>
                     <plugin>
 
@@ -149,29 +154,7 @@
                     </plugin>
 
 
-                    <plugin>
-                        <groupId>com.spotify</groupId>
-                        <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>1.4.13</version>
-                        <executions>
-                            <execution>
-                                <id>default</id>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <repository>${heroku.registry}</repository>
-                            <tag>${heroku.project}/web</tag>
-                            <dockerfile>src/main/docker/Dockerfile</dockerfile>
-                            <buildArgs>
-                                <contextDirectory>.</contextDirectory>
-                                <UTIL_DIR>src/main/docker</UTIL_DIR>
-                                <JAR_FILE>target/app.jar</JAR_FILE>
-                            </buildArgs>
-                        </configuration>
-                    </plugin>
+                  
                 </plugins>
             </build>
         </profile>

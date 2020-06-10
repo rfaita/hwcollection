@@ -26,6 +26,4 @@ jobs:
         env:
           CI: false
       - name: Build with Docker
-        run: mvn clean dockerfile:build -Pfull
-      - name: Push with Docker
-        run: mvn clean dockerfile:push -Pfull
+        run: mvn spring-boot:build-image -Pfull

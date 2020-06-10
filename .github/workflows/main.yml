@@ -21,8 +21,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Build with Maven
-        run: cd server && mvn clean install -Pfull
+      - name: Build and Build Docker Image
+        run: cd server && mvn clean spring-boot:build-image -Pfull
         env:
           CI: false
       - name: Build with Docker

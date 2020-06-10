@@ -35,7 +35,7 @@ const useCollectCar = (collected) => {
         } else {
             didMount.current = true;
         }
-    }, [collected]);
+    }, [collected, token]);
 
     return { loading, error };
 }

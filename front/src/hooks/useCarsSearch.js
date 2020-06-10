@@ -45,7 +45,7 @@ const useCarsSearch = (query, page) => {
         }
         return () => { };
 
-    }, [query, page]);
+    }, [query, page, token]);
 
     return { loading, error, cars, hasMore };
 }

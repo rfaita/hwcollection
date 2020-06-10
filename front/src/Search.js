@@ -22,7 +22,7 @@ const Search = (props) => {
     useEffect(() => {
         setQuery(queryParam.get("q"));
         setPage(0);
-    }, [queryParam.get("q")])
+    }, [queryParam])
 
     const {
         loading, error,
@@ -49,7 +49,7 @@ const Search = (props) => {
 
     return (
         <div>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
                 {cars.map((car, index) => {
                     return (
                         <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>

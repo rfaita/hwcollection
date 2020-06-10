@@ -36,7 +36,7 @@ const Favorite = (props) => {
 
     return (
         <div>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 {cars.map((car, index) => {
                     return (
                         <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>

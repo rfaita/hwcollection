@@ -16,7 +16,7 @@ const useFavoriteCar = (favorited) => {
         if (didMount.current) {
             setLoading(true);
             setError(false);
-            
+
             axios({
                 method: favorited.favorited ? 'POST' : 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` },
@@ -28,14 +28,14 @@ const useFavoriteCar = (favorited) => {
             }).catch(e => {
                 setError(true);
                 setLoading(false);
-                
+
             });
 
             return () => { };
         } else {
             didMount.current = true;
         }
-    }, [favorited]);
+    }, [favorited, token]);
 
     return { loading, error };
 }

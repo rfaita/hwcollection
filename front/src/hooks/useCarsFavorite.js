@@ -46,7 +46,7 @@ const useCarsFavorite = (userId, page) => {
         }
         return () => { };
 
-    }, [userId, page]);
+    }, [userId, page, token]);
 
     return { loading, error, cars, hasMore };
 }

@@ -16,13 +16,13 @@ public class CarCollectionController {
     private final SecurityHelper securityHelper;
 
     @PostMapping("/{carId}")
-    public CarCollection addToCollection(@PathVariable String carId) {
-        return service.addToCollection(securityHelper.getUserId(), carId).orElse(null);
+    public CarCollection addCollection(@PathVariable String carId) {
+        return service.addCollection(securityHelper.getUserId(), carId).orElse(null);
     }
 
     @DeleteMapping("/{carId}")
-    public void removeFromCollection(@PathVariable String carId) {
-        service.removeFromCollection(securityHelper.getUserId(), carId);
+    public void removeCollection(@PathVariable String carId) {
+        service.removeCollection(securityHelper.getUserId(), carId);
     }
 
     @GetMapping("/{userId}")

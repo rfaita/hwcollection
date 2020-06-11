@@ -8,9 +8,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Document
 @Data
@@ -40,8 +43,8 @@ public class Car {
     private String tampo;
     private String photo;
 
-    private Set<String> favoriteds = new HashSet<>();
-    private Set<String> collections = new HashSet<>();
+    @DBRef
+    private CarStats stats;
 
     private Map<String, Object> extraFields = new HashMap<>();
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hwc.server.model.Car;
 import com.hwc.server.repository.CarRepository;
+import com.hwc.server.repository.CarStatsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
@@ -22,6 +23,7 @@ import java.util.Map;
 public class DatabaseLoader implements CommandLineRunner {
 
     private final CarRepository carRepository;
+    private final CarStatsRepository carStatsRepository;
     private final ResourceLoader resourceLoader;
 
     private static final Map<String, String[]> countryMap = new HashMap<>();
@@ -68,17 +70,19 @@ public class DatabaseLoader implements CommandLineRunner {
 
 
         cars.forEach(car -> {
-            car.setId((car.getName() + car.getYear() + car.getSeries() + car.getKey() + car.getWheelType()).replaceAll(" ", ""));
+            car.setId((car.getName() + car.getYear() + car.getSeries() + car.getKey() + car.getWheelType())
+                    .replaceAll(" ", "")
+                    .replaceAll("/", ""));
             car.setPhoto(car.getPhoto().replaceAll("\\/(\\d+)\\?cb\\=", "/350?cb="));
             if (car.getPhoto() != null && car.getPhoto().contains("Image_Not_Available")) {
                 car.setPhoto("");
             }
             car.setCountry(getCountry(car.getCountry()));
+            car.setStats(carStatsRepository.findOneByCarId(car.getId()));
 
             carRepository.save(car);
 
         });
-
 
 
     }

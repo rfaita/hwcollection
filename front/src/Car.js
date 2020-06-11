@@ -87,28 +87,43 @@ const Car = (props) => {
 
   const classes = useStyles();
 
-  const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.favoriteds?.indexOf(props.userId) > -1 });
-  const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.collections?.indexOf(props.userId) > -1 });
+  const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.stats?.favoriteds?.indexOf(props.userId) > -1 });
+  const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.stats?.collections?.indexOf(props.userId) > -1 });
 
   const { loadingFavorite, errorFavorite } = useFavoriteCar(favorited);
   const { loadingCollection, errorCollection } = useCollectCar(collected);
 
   function favorite() {
 
+    if (!props.car.stats) {
+      props.car.stats = {
+        collections: [],
+        favoriteds: []
+      };
+    }
+
+
     if (!favorited.favorited) {
-      props.car.favoriteds = [...props.car.favoriteds, props.userId];
+      props.car.stats.favoriteds = [...props.car.stats.favoriteds, props.userId];
     } else {
-      props.car.favoriteds = props.car.favoriteds.filter(item => item !== props.userId)
+      props.car.stats.favoriteds = props.car.stats.favoriteds.filter(item => item !== props.userId)
     }
     setFavorited(prev => { return { ...prev, favorited: !prev.favorited } });
   }
 
   function collect() {
 
+    if (!props.car.stats) {
+      props.car.stats = {
+        collections: [],
+        favoriteds: []
+      };
+    }
+
     if (!collected.collected) {
-      props.car.collections = [...props.car.collections, props.userId];
+      props.car.stats.collections = [...props.car.stats.collections, props.userId];
     } else {
-      props.car.collections = props.car.collections.filter(item => item !== props.userId)
+      props.car.stats.collections = props.car.stats.collections.filter(item => item !== props.userId)
     }
     setCollected(prev => { return { ...prev, collected: !prev.collected } });
 
@@ -181,11 +196,11 @@ const Car = (props) => {
         <IconButton aria-label="add to favorites" color="primary" onClick={() => { favorite() }}>
           {favorited.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
-        <span>{props.car.favoriteds?.length}</span>
+        <span>{props.car.stats?.favoriteds?.length}</span>
         <IconButton aria-label="add to collection" color="primary" onClick={() => { collect() }}>
           {collected.collected ? <RemoveIcon /> : <AddIcon />}
         </IconButton>
-        <span>{props.car.collections?.length}</span>
+        <span>{props.car.stats?.collections?.length}</span>
         <IconButton aria-label="share" color="primary">
           <ShareIcon />
         </IconButton>

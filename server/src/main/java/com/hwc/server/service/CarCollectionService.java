@@ -2,12 +2,15 @@ package com.hwc.server.service;
 
 import com.hwc.server.model.Car;
 import com.hwc.server.model.CarCollection;
+import com.hwc.server.model.CarFavorite;
+import com.hwc.server.model.CarStats;
 import com.hwc.server.repository.CarCollectionRepository;
 import com.hwc.server.repository.CarRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Optional;
 
@@ -17,9 +20,9 @@ public class CarCollectionService {
 
     private final CarRepository carRepository;
     private final CarCollectionRepository carCollectionRepository;
+    private final CarStatsService carStatsService;
 
-
-    public Optional<CarCollection> addToCollection(String userId, String carId) {
+    public Optional<CarCollection> addCollection(String userId, String carId) {
 
         Optional<Car> car = carRepository.findById(carId);
 
@@ -27,23 +30,27 @@ public class CarCollectionService {
 
             Car carData = car.get();
 
-            if (carData.getCollections().add(userId)) {
+            CarStats carStats = carStatsService.addCollection(carData.getId(), userId);
 
-                carRepository.save(carData);
+            if (!ObjectUtils.isEmpty(carStats)) {
+
+                if (ObjectUtils.isEmpty(carData.getStats())) {
+                    carData.setStats(carStats);
+                    carRepository.save(carData);
+                }
 
                 return Optional.of(carCollectionRepository.save(CarCollection.builder()
                         .car(carData)
                         .carId(carData.getId())
                         .userId(userId)
                         .build()));
-
             }
         }
         return Optional.empty();
 
     }
 
-    public void removeFromCollection(String userId, String carId) {
+    public void removeCollection(String userId, String carId) {
 
         Optional<CarCollection> carCollection = carCollectionRepository.findOneByCarId(carId);
 
@@ -55,11 +62,11 @@ public class CarCollectionService {
 
                 Car carData = car.get();
 
-                if (carData.getCollections().remove(userId)) {
-                    carRepository.save(carData);
-                }
+                CarStats carStats = carStatsService.removeCollection(carData.getId(), userId);
 
-                carCollectionRepository.deleteById(carCollection.get().getId());
+                if (!ObjectUtils.isEmpty(carStats)) {
+                    carCollectionRepository.deleteById(carCollection.get().getId());
+                }
 
             }
         }

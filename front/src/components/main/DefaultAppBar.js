@@ -16,7 +16,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { LoginContext } from '../../providers/LoginProvider';
 
 import { Link } from "react-router-dom";
-
+import { Tooltip, Breadcrumbs } from '@material-ui/core';
+import useTop5Query from '../../hooks/useTop5Query';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '20ch',
+            width: '30ch',
         },
     },
     sectionDesktop: {
@@ -80,8 +81,24 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
-    main: {
-        marginTop: 80
+    top5: {
+        color: '#ffffff',
+        fontSize: 12,
+        marginTop: 3,
+        marginLeft: 0,
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+        height: 15,
+        overflow: 'hidden'
+    },
+    top5a: {
+        marginRight: 10
+    },
+    appBar: {
+        minHeight: 70
     }
 }));
 
@@ -91,47 +108,63 @@ const DefaultAppBar = (props) => {
 
     const { user } = useContext(LoginContext);
 
+    const { searchs } = useTop5Query();
+
     return (
-        <AppBar position="fixed">
-            <Toolbar>
-                <IconButton
-                    edge="start"
-                    className={classes.menuButton}
-                    color="inherit"
-                    aria-label="open drawer"
-                >
-                    <MenuIcon />
-                </IconButton>
+        <AppBar position="fixed" >
+            <Toolbar className={classes.appBar}>
                 <Link to={"/"}>
                     <Typography className={classes.title} variant="h6" noWrap>
                         HW Collection
                     </Typography>
                 </Link>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
+                <div>
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search for cars…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                            onChange={props.handleSearch}
+                        />
+
                     </div>
-                    <InputBase
-                        placeholder="Search for cars…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        onChange={props.handleSearch}
-                    />
+                    <div className={classes.top5}>
+
+                        {searchs.map(search => {
+                            return (
+                                <Link to={`/search?q=${search.query}`} className={classes.top5a}>
+                                    <Typography variant="span">
+                                        {search.query}
+                                    </Typography>
+                                </Link>
+                            );
+                        })}
+
+                    </div>
                 </div>
+
+
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
                     <Link to={"/favorites"}>
-                        <IconButton aria-label="favorites" color="inherit">
-                            <FavoriteIcon />
-                        </IconButton>
+                        <Tooltip title="Favorites" aria-label="add">
+                            <IconButton aria-label="favorites" color="inherit">
+                                <FavoriteIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Link>
-                    <Link to={"/collections"}>
-                        <IconButton aria-label="collection" color="inherit">
-                            <ListAltIcon />
-                        </IconButton>
+                    <Link to={"/collection"}>
+                        <Tooltip title="My Collection" aria-label="add">
+                            <IconButton aria-label="collection" color="inherit">
+                                <ListAltIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Link>
                     <IconButton
                         edge="end"

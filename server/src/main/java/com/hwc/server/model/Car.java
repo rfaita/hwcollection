@@ -21,7 +21,7 @@ public class Car {
 
     @Id
     private String id;
-    @TextIndexed(weight = 10f)
+    @TextIndexed(weight = 7f)
     private String name;
     private String number;
     private String numberTotal;
@@ -33,7 +33,7 @@ public class Car {
     private String seriesTotalNumber;
     private List<String> color;
     private List<String> baseColorType;
-    @TextIndexed(weight = 15f)
+    @TextIndexed(weight = 5f)
     private String key;
     private String country;
     private String wheelType;

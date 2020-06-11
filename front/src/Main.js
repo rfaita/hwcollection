@@ -3,12 +3,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import DefaultMenu from './components/main/DefaultMenu';
 import MobileMenu from './components/main/MobileMenu';
 import DefaultAppBar from './components/main/DefaultAppBar';
-import { useHistory } from 'react-router-dom';
 
 import {
-    Switch,
-    Route,
-    withRouter
+    Switch, Route,
+    withRouter,
+    useHistory
 } from "react-router-dom";
 import Collection from './Collection';
 import Favorite from './Favorite';
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     main: {
         marginRight: 10,
         marginLeft: 10,
-        marginTop: 75,
+        marginTop: 90,
         flexGrow: 1,
     }
 }));
@@ -92,7 +91,7 @@ const Main = (props) => {
                     <Route exact path="/">
                         <Collection />
                     </Route>
-                    <Route path="/collections">
+                    <Route path="/collection">
                         <Collection />
                     </Route>
                     <Route path="/favorites">

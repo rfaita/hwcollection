@@ -17,6 +17,7 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Tooltip from '@material-ui/core/Tooltip';
 import useFavoriteCar from './hooks/useFavoriteCar';
 import useCollectCar from './hooks/useCollectCar';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -128,19 +129,24 @@ const Car = (props) => {
             title={props.car.name}
           />}
         {!!props.car.key && <Chip label={props.car.key} className={classes.key} color="primary"></Chip>}
-        {!!props.car.year && <Chip label={props.car.year} className={classes.year} color="primary"></Chip>}
+        {!!props.car.year &&
+          <Link to={`/search?q=${props.car.year}`}><Chip label={props.car.year} className={classes.year} color="primary"></Chip></Link>}
         {!!props.car.number ? !!props.car.numberTotal ?
           <Chip label={`${props.car.number} / ${props.car.numberTotal}`} className={classes.number} color="primary"></Chip> :
           <Chip label={props.car.number} className={classes.number} color="primary"></Chip> : ''}
         <Tooltip title={props.car.country}>
           <img alt="country" className={classes.country} src={`imgs/${props.car.country?.toLowerCase()}.png`} />
         </Tooltip>
-        <CardContent className={classes.body}>
+      </CardActionArea>
+      <CardContent className={classes.body}>
+        <Link to={`/search?q=${props.car.name}`}>
           <Typography gutterBottom variant="h5" component="h2" className={classes.name}>
             {props.car.name}
           </Typography>
+        </Link>
 
-          <div className={classes.clearBoth}>
+        <div className={classes.clearBoth}>
+          <Link to={`/search?q=${props.car.series}`}>
             <Typography variant="subtitle1" color="textSecondary" className={classes.series}>
               {props.car.series}
             </Typography>
@@ -148,27 +154,28 @@ const Car = (props) => {
               <Typography variant="subtitle1" color="textSecondary" className={classes.seriesNumber}>
                 {props.car.seriesNumber} / {props.car.seriesTotalNumber}
               </Typography>}
-          </div>
-          <div className={classes.clearBoth}>
-            {!!props.car.color &&
-              <Typography variant="body2" color="textSecondary" component="div">
-                Color: <Typography variant="body2" color="textPrimary" component="span">{props.car.color}</Typography>
-              </Typography>}
-            {!!props.car.baseColorType &&
-              <Typography variant="body2" color="textSecondary" component="div">
-                Base Color / Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.baseColorType}</Typography>
-              </Typography>}
-            {!!props.car.wheelType &&
-              <Typography variant="body2" color="textSecondary" component="div">
-                Wheel Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.wheelType}</Typography>
-              </Typography>}
-            {!!props.car.tampo &&
-              <Typography variant="body2" color="textSecondary" component="div">
-                Tampo: <Typography variant="body2" color="textPrimary" component="span">{props.car.tampo}</Typography>
-              </Typography>}
-          </div>
-        </CardContent>
-      </CardActionArea>
+          </Link>
+        </div>
+        <div className={classes.clearBoth}>
+          {!!props.car.color &&
+            <Typography variant="body2" color="textSecondary" component="div">
+              Color: <Typography variant="body2" color="textPrimary" component="span">{props.car.color}</Typography>
+            </Typography>}
+          {!!props.car.baseColorType &&
+            <Typography variant="body2" color="textSecondary" component="div">
+              Base Color / Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.baseColorType}</Typography>
+            </Typography>}
+          {!!props.car.wheelType &&
+            <Typography variant="body2" color="textSecondary" component="div">
+              Wheel Type: <Typography variant="body2" color="textPrimary" component="span">{props.car.wheelType}</Typography>
+            </Typography>}
+          {!!props.car.tampo &&
+            <Typography variant="body2" color="textSecondary" component="div">
+              Tampo: <Typography variant="body2" color="textPrimary" component="span">{props.car.tampo}</Typography>
+            </Typography>}
+        </div>
+      </CardContent>
+
 
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" color="primary" onClick={() => { favorite() }}>

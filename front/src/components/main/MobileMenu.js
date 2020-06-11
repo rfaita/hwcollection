@@ -20,22 +20,22 @@ const MobileMenu = (props) => {
             open={props.isMobileMenuOpen}
             onClose={props.handleMobileMenuClose}
         >
-            <MenuItem>
-                <Link to={"/favorites"}>
+            <Link to={"/favorites"}>
+                <MenuItem>
                     <IconButton aria-label="favorites" color="inherit">
                         <FavoriteIcon />
-                        Favorites
                     </IconButton>
-                </Link>
-            </MenuItem>
-            <MenuItem>
-                <Link to={"/collections"}>
+                    Favorites
+                </MenuItem>
+            </Link>
+            <Link to={"/collection"}>
+                <MenuItem>
                     <IconButton color="inherit">
                         <ListAltIcon />
-                        Collections
                     </IconButton>
-                </Link>
+                    My Collection
             </MenuItem>
+            </Link>
             <MenuItem onClick={props.handleProfileMenuOpen}>
                 <IconButton
                     aria-label="account of current user"

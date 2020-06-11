@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -33,9 +34,11 @@ public class CarService {
             if (search.isPresent()) {
                 saveSearch = search.get();
                 saveSearch.setHits(saveSearch.getHits() + 1);
+                saveSearch.setUpdatedAt(LocalDateTime.now());
             } else {
                 saveSearch = Search.builder()
                         .query(query.toLowerCase())
+                        .updatedAt(LocalDateTime.now())
                         .hits(1l)
                         .build();
             }

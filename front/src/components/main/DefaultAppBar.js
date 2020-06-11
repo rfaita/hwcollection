@@ -92,13 +92,20 @@ const useStyles = makeStyles((theme) => ({
             width: 'auto',
         },
         height: 15,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     top5a: {
-        marginRight: 10
+        marginRight: 7,
+        fontWeight: 'bold'
     },
     appBar: {
         minHeight: 70
+    },
+    mostSearched: {
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'inline',
+        },
     }
 }));
 
@@ -108,7 +115,7 @@ const DefaultAppBar = (props) => {
 
     const { user } = useContext(LoginContext);
 
-    const { searchs } = useTop5Query();
+    const { searchs, loading } = useTop5Query();
 
     return (
         <AppBar position="fixed" >
@@ -135,7 +142,8 @@ const DefaultAppBar = (props) => {
 
                     </div>
                     <div className={classes.top5}>
-
+                        <span className={classes.mostSearched}>Most searched </span>
+                        {loading && <span>loading...</span>}
                         {searchs.map(search => {
                             return (
                                 <Link to={`/search?q=${search.query}`} className={classes.top5a}>

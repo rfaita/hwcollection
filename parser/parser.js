@@ -112,6 +112,8 @@ async function extractCar(car) {
 
                 if (!!obj.country) {
                     obj.country = normalizeCountry(obj.country);
+                } else {
+                    obj.country = 'Malaysia';
                 }
 
                 if (!!obj.baseColorType) {
@@ -190,7 +192,7 @@ async function extractCar(car) {
 
                 obj.photo = obj.photo.replace(/\t|\s/g, '').replace(/\/\d+\?cb/, '/480?cb');;
 
-                obj.id = (obj.name + obj.year + obj.series + obj.key + obj.wheelType).replace(/\s|\/|'|"/g, '');
+                obj.id = (obj.name + obj.year + obj.series + obj.key + obj.wheelType).replace(/[^\w|\s]/g, '');
 
                 return obj;
 

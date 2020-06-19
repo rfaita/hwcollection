@@ -27,7 +27,7 @@ function normalizeCountry(country) {
     return 'Malaysia';
 }
 
-function loadImage(id, url) {
+function loadImage(id, url, ext) {
     return new Promise((resolve, reject) => {
         crawler.queue([{
             uri: url,
@@ -38,16 +38,9 @@ function loadImage(id, url) {
                     reject(error);
                 } else {
                     console.log(`PHOTO EXTRACTED ${id}: ${url}`);
-                    let ext = '.gif';
-                    if (url.toUpperCase().indexOf('.JPG') > -1) {
-                        ext = '.jpg';
-                    } else if (url.toUpperCase().indexOf('.PNG') > -1) {
-                        ext = '.png';
-                    }
 
                     fs.writeFileSync(`./images/${id}${ext}`, res.body);
-                    resolve(true);
-                    //resolve({ carIndex, photo: 'data:image/png;base64,' + base64Encode(res.body) });
+                    resolve(true);                    
                 }
                 done();
             }
@@ -130,6 +123,8 @@ async function extractCar(car) {
                     } else {
                         obj.baseColorType = [obj.baseColorType];
                     }
+                } else {
+                    obj.baseColorType = [];
                 }
 
                 if (!!obj.wheelType) {
@@ -159,6 +154,8 @@ async function extractCar(car) {
                     } else {
                         obj.color = [obj.color];
                     }
+                } else {
+                    obj.color = [];
                 }
 
                 if (!!obj.number) {
@@ -297,7 +294,14 @@ async function extractData() {
     const photosPromisses = [];
     for (let car of finalResult) {
         if (!!car.photo) {
-            photosPromisses.push(loadImage(car.id, car.photo));
+            let ext = '.gif';
+            if (car.photo.toUpperCase().indexOf('.JPG') > -1) {
+                ext = '.jpg';
+            } else if (car.photo.toUpperCase().indexOf('.PNG') > -1) {
+                ext = '.png';
+            }
+            photosPromisses.push(loadImage(car.id, car.photo, ext));
+            car.photo = ext;
         }
 
     }

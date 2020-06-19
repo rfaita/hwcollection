@@ -40,10 +40,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
 
         cars.forEach(car -> {
-            car.setId((car.getName() + car.getYear() + car.getSeries() + car.getKey() + car.getWheelType())
-                    .replaceAll(" ", "")
-                    .replaceAll("/", ""));
-            car.setPhoto(car.getPhoto().replaceAll("\\/(\\d+)\\?cb\\=", "/350?cb="));
+
             car.setStats(carStatsRepository.findOneByCarId(car.getId()));
 
             carRepository.save(car);

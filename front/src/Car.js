@@ -135,7 +135,7 @@ const Car = (props) => {
         {!!props.car.photo ?
           <CardMedia
             className={classes.media}
-            image={props.car.photo}
+            image={`${process.env.REACT_CDN_URL}${props.car.id}.${props.car.photo}`}
             title={props.car.name}
           /> :
           <CardMedia

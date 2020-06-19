@@ -9,4 +9,4 @@ spring:
       - classpath:/static/
 firebase:
   databaseURL: ${GCP_DATABASE_URL:https://hwc-personal.firebaseio.com}
-  serviceAccount: ${GCP_SERVICE_ACCOUNT:$HOME/serviceAccountKey.json}
+  serviceAccount: ${GCP_SERVICE_ACCOUNT:~/serviceAccountKey.json}

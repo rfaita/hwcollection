@@ -26,36 +26,6 @@ public class DatabaseLoader implements CommandLineRunner {
     private final CarStatsRepository carStatsRepository;
     private final ResourceLoader resourceLoader;
 
-    private static final Map<String, String[]> countryMap = new HashMap<>();
-
-    static {
-        countryMap.put("Malaysia", new String[]{"malaysia", "malayxia", "malayisa", "malasyia", "malasya", "mayalsia", "malasysia", "malysia", "malayaia", "malasia", "maylasia", "malaysa"});
-        countryMap.put("Indonesia", new String[]{"indonesia", "indoniesia", "indoneisa"});
-        countryMap.put("Thailand", new String[]{"thailand", "thialand", "tahiland", "thaiand", "thailad"});
-        countryMap.put("China", new String[]{"china"});
-        countryMap.put("Hong-Kong", new String[]{"hon", "hk"});
-        countryMap.put("USA", new String[]{"usa", "u.s.", "united"});
-        countryMap.put("Mexico", new String[]{"mexico", "méxico"});
-        countryMap.put("Canada", new String[]{"canada"});
-        countryMap.put("France", new String[]{"france"});
-        countryMap.put("Italy", new String[]{"italy"});
-        countryMap.put("India", new String[]{"india"});
-        countryMap.put("Vietnam", new String[]{"vietnam"});
-    }
-
-    private String getCountry(String country) {
-        if (!StringUtils.isEmpty(country)) {
-            for (String index : countryMap.keySet()) {
-                for (String countryMapping : countryMap.get(index)) {
-                    if (country.toLowerCase().indexOf(countryMapping) > -1) {
-                        return index;
-                    }
-                }
-            }
-        }
-        return "Malaysia";
-    }
-
     @Override
     public void run(String... args) throws Exception {
 
@@ -74,10 +44,6 @@ public class DatabaseLoader implements CommandLineRunner {
                     .replaceAll(" ", "")
                     .replaceAll("/", ""));
             car.setPhoto(car.getPhoto().replaceAll("\\/(\\d+)\\?cb\\=", "/350?cb="));
-            if (car.getPhoto() != null && car.getPhoto().contains("Image_Not_Available")) {
-                car.setPhoto("");
-            }
-            car.setCountry(getCountry(car.getCountry()));
             car.setStats(carStatsRepository.findOneByCarId(car.getId()));
 
             carRepository.save(car);

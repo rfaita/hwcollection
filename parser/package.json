@@ -1,0 +1,15 @@
+{
+  "name": "parser",
+  "version": "1.0.0",
+  "description": "A parser to extract information about cars from Hot Wheels fandom ",
+  "main": "parser.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rfaita@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "crawler": "^1.2.2",
+    "graceful-fs": "^4.2.4"
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
@@ -17,7 +17,8 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import Tooltip from '@material-ui/core/Tooltip';
 import useFavoriteCar from './hooks/useFavoriteCar';
 import useCollectCar from './hooks/useCollectCar';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { LoginContext } from './providers/LoginProvider';
 
 const useStyles = makeStyles({
   root: {
@@ -30,7 +31,8 @@ const useStyles = makeStyles({
     top: 7,
     left: 7,
     position: 'absolute',
-    height: 20
+    height: 20,
+    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
   },
   country: {
     width: 32,
@@ -50,14 +52,16 @@ const useStyles = makeStyles({
     top: 215,
     right: 7,
     position: 'absolute',
-    fontSize: 10
+    fontSize: 10,
+    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
   },
   year: {
     height: 18,
     top: 215,
     left: 7,
     position: 'absolute',
-    fontSize: 10
+    fontSize: 10,
+    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
   },
   series: {
     float: 'left',
@@ -87,45 +91,57 @@ const Car = (props) => {
 
   const classes = useStyles();
 
-  const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.stats?.favoriteds?.indexOf(props.userId) > -1 });
-  const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.stats?.collections?.indexOf(props.userId) > -1 });
+  const { user } = useContext(LoginContext);
 
-  const { loadingFavorite, errorFavorite } = useFavoriteCar(favorited);
-  const { loadingCollection, errorCollection } = useCollectCar(collected);
+  const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.stats?.favoriteds?.indexOf(user?.uid) > -1 });
+  const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.stats?.collections?.indexOf(user?.uid) > -1 });
+
+  const favoriteCtrl = useFavoriteCar(favorited);
+  const collectionCtrl = useCollectCar(collected);
+
+
+  const history = useHistory();
 
   function favorite() {
 
-    if (!props.car.stats) {
-      props.car.stats = {
-        collections: [],
-        favoriteds: []
-      };
-    }
+    if (!!user) {
+      if (!props.car.stats) {
+        props.car.stats = {
+          collections: [],
+          favoriteds: []
+        };
+      }
 
-
-    if (!favorited.favorited) {
-      props.car.stats.favoriteds = [...props.car.stats.favoriteds, props.userId];
+      if (!favorited.favorited) {
+        props.car.stats.favoriteds = [...props.car.stats.favoriteds, user?.uid];
+      } else {
+        props.car.stats.favoriteds = props.car.stats.favoriteds.filter(item => item !== user?.uid)
+      }
+      setFavorited(prev => { return { ...prev, favorited: !prev.favorited } });
     } else {
-      props.car.stats.favoriteds = props.car.stats.favoriteds.filter(item => item !== props.userId)
+      history.push("/login");
     }
-    setFavorited(prev => { return { ...prev, favorited: !prev.favorited } });
   }
 
   function collect() {
 
-    if (!props.car.stats) {
-      props.car.stats = {
-        collections: [],
-        favoriteds: []
-      };
-    }
+    if (!!user) {
+      if (!props.car.stats) {
+        props.car.stats = {
+          collections: [],
+          favoriteds: []
+        };
+      }
 
-    if (!collected.collected) {
-      props.car.stats.collections = [...props.car.stats.collections, props.userId];
+      if (!collected.collected) {
+        props.car.stats.collections = [...props.car.stats.collections, user?.uid];
+      } else {
+        props.car.stats.collections = props.car.stats.collections.filter(item => item !== user?.uid)
+      }
+      setCollected(prev => { return { ...prev, collected: !prev.collected } });
     } else {
-      props.car.stats.collections = props.car.stats.collections.filter(item => item !== props.userId)
+      history.push("/login");
     }
-    setCollected(prev => { return { ...prev, collected: !prev.collected } });
 
   }
 

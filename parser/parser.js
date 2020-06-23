@@ -101,7 +101,6 @@ async function extractCar(car) {
                 const obj = { name: carName };
                 for (let indexCol in colPosition) {
 
-
                     if (!!indexCol && !!colDataMap[indexCol] && colDataMap[indexCol] === 'photo') {
 
                         obj[colDataMap[indexCol]] = $(tr.find('td').get(colPosition[indexCol])).html();
@@ -188,6 +187,10 @@ async function extractCar(car) {
 
                 } else {
                     obj.photo = '';
+                }
+
+                if (!!obj.year) {
+                    obj.year = obj.year.replace(/[^\w|\s]/g, '');
                 }
 
                 obj.photo = obj.photo.replace(/\t|\s/g, '').replace(/\/\d+\?cb/, '/480?cb');;

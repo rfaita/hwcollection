@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +11,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { signInWithGoogle } from "./services/firebase";
+import { signInWithGoogle, signInWithEmailAndPassword } from "./services/firebase";
+import { Redirect, Link as LinkRouter } from 'react-router-dom';
+import { LoginContext } from './providers/LoginProvider';
+import { Snackbar } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -44,34 +47,145 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
+    const { user } = useContext(LoginContext);
+
+    const [email, setEmail] = useState();
+    const [pass, setPass] = useState();
+
+    const [loading, setLoading] = useState(false);
+
+    const [openError, setOpenError] = useState(false);
+    const [messageError, setMessageError] = useState();
+
+    const handleError = (message) => {
+        setOpenError(true);
+        if (message.indexOf(":") > -1) {
+            setMessageError(message.split(":")[1]);
+        } else {
+            setMessageError(message);
+        }
+    }
+
+    const handleErrorClose = () => {
+        setOpenError(false);
+    }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
+        <div>
+            {!user ?
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
 
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="secondary"
-                    className={classes.google}
-                    onClick={() => {
-                        signInWithGoogle();
-                    }}
-                >
-                    <i className="fab fa-google margin-right"></i> Login with Google
-                </Button>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.facebook}
-                >
-                    <i className="fab fa-facebook margin-right"></i> Login with Facebook
-                </Button>
-            </div>
-        </Container>
+
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <form className={classes.form} noValidate>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={(e) => {
+                                    setPass(e.target.value);
+                                }}
+                            />
+                            <FormControlLabel
+                                control={<Checkbox value="remember" color="primary" />}
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                disabled={loading}
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    setLoading(true);
+                                    try {
+                                        await signInWithEmailAndPassword(email, pass);
+                                    } catch (err) {
+                                        console.log(err);
+                                        handleError(err.message);
+                                    }
+                                    setLoading(false);
+
+                                }}
+                            >
+                                Sign In
+                            </Button>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                            </Link>
+                                </Grid>
+                                <Grid item>
+                                    <LinkRouter to={"/signup"}>
+                                        <Link variant="body2">
+                                            {"Don't have an account? Sign Up"}
+                                        </Link>
+                                    </LinkRouter>
+                                </Grid>
+                            </Grid>
+                        </form>
+
+                        <Snackbar
+                            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                            open={openError}
+                            onClose={handleErrorClose}
+                            message={messageError}
+                            autoHideDuration={5000}
+                            key={"errorSignUp"}
+                        />
+
+                        <Typography component="span" variant="subtitle2">
+                            or
+                        </Typography>
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            className={classes.google}
+                            onClick={() => {
+                                signInWithGoogle();
+                            }}
+                        >
+                            <i className="fab fa-google margin-right"></i> Login with Google
+                        </Button>
+                    </div>
+                </Container>
+                :
+                <Redirect to={"/"} />
+
+            }
+        </div>
     );
 }

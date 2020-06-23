@@ -1,6 +1,5 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { LoginContext } from '../providers/LoginProvider';
 
 const useTop5Query = () => {
 
@@ -8,9 +7,7 @@ const useTop5Query = () => {
     const [error, setError] = useState(false);
     const [searchs, setSearchs] = useState([]);
 
-    const { token } = useContext(LoginContext);
-
-
+    
     useEffect(() => {
 
         setLoading(true);
@@ -18,8 +15,7 @@ const useTop5Query = () => {
 
         axios({
             method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` },
-            url: `${process.env.REACT_APP_API_URL}/api/search/top5`
+            url: `${process.env.REACT_APP_API_URL}/api/public/search/top5`
         }).then(res => {
             setSearchs(res.data);
             setLoading(false);
@@ -32,7 +28,7 @@ const useTop5Query = () => {
 
         return () => { };
 
-    }, [token]);
+    }, []);
 
     return { loading, error, searchs };
 }

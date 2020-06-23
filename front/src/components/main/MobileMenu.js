@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import ListAltIcon from '@material-ui/icons/ListAlt';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Link } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link, useHistory } from 'react-router-dom';
+import { LoginContext } from '../../providers/LoginProvider';
+import { signOut } from '../../services/firebase';
 
 
 const MobileMenu = (props) => {
+
+    const { user } = useContext(LoginContext);
+    const history = useHistory();
 
     return (
         <Menu
@@ -20,33 +26,44 @@ const MobileMenu = (props) => {
             open={props.isMobileMenuOpen}
             onClose={props.handleMobileMenuClose}
         >
-            <Link to={"/favorites"}>
-                <MenuItem>
-                    <IconButton aria-label="favorites" color="inherit">
-                        <FavoriteIcon />
-                    </IconButton>
-                    Favorites
-                </MenuItem>
-            </Link>
-            <Link to={"/collection"}>
-                <MenuItem>
-                    <IconButton color="inherit">
-                        <ListAltIcon />
-                    </IconButton>
-                    My Collection
-            </MenuItem>
-            </Link>
-            <MenuItem onClick={props.handleProfileMenuOpen}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+            {!!user ?
+                <div>
+                    <Link to={"/favorites"}>
+                        <MenuItem onClick={props.handleMobileMenuClose} >
+                            <IconButton aria-label="favorites" color="inherit">
+                                <FavoriteIcon />
+                            </IconButton>
+                            Favorites
+                        </MenuItem>
+                    </Link>
+                    <Link to={"/collection"}>
+                        <MenuItem onClick={props.handleMobileMenuClose} >
+                            <IconButton color="inherit">
+                                <ListAltIcon />
+                            </IconButton>
+                            My Collection
+                        </MenuItem>
+                    </Link>
+                    <MenuItem onClick={() => {
+                        props.handleMobileMenuClose();
+                        signOut().then(() => history.push("/"));
+                    }}>
+                        <IconButton color="inherit">
+                            <ExitToAppIcon />
+                        </IconButton>
+                        Logout
+                    </MenuItem>
+                </div>
+                :
+                <Link to={"/login"}>
+                    <MenuItem onClick={props.handleMobileMenuClose} >
+                        <IconButton color="inherit">
+                            <LockOpenIcon />
+                        </IconButton>
+                        Login
+                    </MenuItem>
+                </Link>
+            }
         </Menu>
     );
 }

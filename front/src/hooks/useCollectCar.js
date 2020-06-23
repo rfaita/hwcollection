@@ -5,7 +5,7 @@ import { LoginContext } from '../providers/LoginProvider';
 const useCollectCar = (collected) => {
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState();
 
     const didMount = useRef(false);
 
@@ -15,7 +15,7 @@ const useCollectCar = (collected) => {
     useEffect(() => {
         if (didMount.current) {
             setLoading(true);
-            setError(false);
+            setError();
             
             axios({
                 method: collected.collected ? 'POST' : 'DELETE',
@@ -26,7 +26,7 @@ const useCollectCar = (collected) => {
                 setLoading(false);
 
             }).catch(e => {
-                setError(true);
+                setError(e);
                 setLoading(false);
                 
             });

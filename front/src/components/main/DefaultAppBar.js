@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -18,19 +17,22 @@ import { LoginContext } from '../../providers/LoginProvider';
 import { Link } from "react-router-dom";
 import { Tooltip, Breadcrumbs } from '@material-ui/core';
 import useTop5Query from '../../hooks/useTop5Query';
+import { deepPurple, deepOrange, blue, cyan, green, red, yellow } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
+    logo: {
+        height: 25,
+        marginRight: 10,
+        [theme.breakpoints.up('sm')]: {
+            height: 50,
+            marginRight: 0,
+        },
+    },
     grow: {
         flexGrow: 1,
     },
     menuButton: {
         marginRight: theme.spacing(2),
-    },
-    title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
     },
     search: {
         position: 'relative',
@@ -96,9 +98,10 @@ const useStyles = makeStyles((theme) => ({
     },
     top5a: {
         marginRight: 7,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     appBar: {
+        background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
         minHeight: 70
     },
     mostSearched: {
@@ -106,6 +109,34 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             display: 'inline',
         },
+    },
+    orange: {
+        color: theme.palette.getContrastText(deepOrange[500]),
+        backgroundColor: deepOrange[500],
+    },
+    purple: {
+        color: theme.palette.getContrastText(deepPurple[500]),
+        backgroundColor: deepPurple[500],
+    },
+    blue: {
+        color: theme.palette.getContrastText(blue[500]),
+        backgroundColor: blue[500],
+    },
+    cyan: {
+        color: theme.palette.getContrastText(cyan[500]),
+        backgroundColor: cyan[500],
+    },
+    green: {
+        color: theme.palette.getContrastText(green[500]),
+        backgroundColor: green[500],
+    },
+    red: {
+        color: theme.palette.getContrastText(red[500]),
+        backgroundColor: red[500],
+    },
+    yellow: {
+        color: theme.palette.getContrastText(yellow[500]),
+        backgroundColor: yellow[500],
     }
 }));
 
@@ -117,13 +148,17 @@ const DefaultAppBar = (props) => {
 
     const { searchs, loading } = useTop5Query();
 
+    const colors = ['deepPurple', 'deepOrange', 'blue', 'cyan', 'green', 'red', 'yellow'];
+
+    const randomColor = () => {
+        return colors[Math.floor((Math.random() * colors.length))];
+    }
+
     return (
         <AppBar position="fixed" >
             <Toolbar className={classes.appBar}>
                 <Link to={"/"}>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        HW Collection
-                    </Typography>
+                    <img className={classes.logo} src="imgs/hwlogo.png" alt="hwlogo" />
                 </Link>
                 <div>
                     <div className={classes.search}>
@@ -146,8 +181,8 @@ const DefaultAppBar = (props) => {
                         {loading && <span>loading...</span>}
                         {searchs.map(search => {
                             return (
-                                <Link to={`/search?q=${search.query}`} className={classes.top5a}>
-                                    <Typography variant="span">
+                                <Link to={`/search?q=${search.query}`} key={search.query} className={classes.top5a}>
+                                    <Typography variant="subtitle2" component="span">
                                         {search.query}
                                     </Typography>
                                 </Link>
@@ -160,20 +195,24 @@ const DefaultAppBar = (props) => {
 
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
-                    <Link to={"/favorites"}>
-                        <Tooltip title="Favorites" aria-label="add">
-                            <IconButton aria-label="favorites" color="inherit">
-                                <FavoriteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Link>
-                    <Link to={"/collection"}>
-                        <Tooltip title="My Collection" aria-label="add">
-                            <IconButton aria-label="collection" color="inherit">
-                                <ListAltIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </Link>
+                    {!!user &&
+                        <div>
+                            <Link to={"/favorites"}>
+                                <Tooltip title="Favorites" aria-label="add">
+                                    <IconButton aria-label="favorites" color="inherit">
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Link>
+                            <Link to={"/collection"}>
+                                <Tooltip title="My Collection" aria-label="add">
+                                    <IconButton aria-label="collection" color="inherit">
+                                        <ListAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Link>
+                        </div>
+                    }
                     <IconButton
                         edge="end"
                         aria-label="account of current user"
@@ -182,10 +221,13 @@ const DefaultAppBar = (props) => {
                         onClick={props.handleProfileMenuOpen}
                         color="inherit"
                     >
-                        {!!user.photoURL
-                            ? <Avatar alt={user.displayName} src={user.photoURL} />
+                        {!!user ?
+                            !!user.photoURL ?
+                                <Avatar alt={user.displayName} src={user.photoURL} />
+                                : <Avatar className={classes[randomColor()]}>{user.email.slice(0, 2).toUpperCase()}</Avatar>
                             : <AccountCircle />}
                     </IconButton>
+
                 </div>
                 <div className={classes.sectionMobile}>
                     <IconButton

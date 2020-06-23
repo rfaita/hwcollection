@@ -1,6 +1,5 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { LoginContext } from '../providers/LoginProvider';
 
 const useCarsSearch = (query, page) => {
 
@@ -8,8 +7,7 @@ const useCarsSearch = (query, page) => {
     const [error, setError] = useState(false);
     const [cars, setCars] = useState([]);
     const [hasMore, setHasMore] = useState(false);
-    const { token } = useContext(LoginContext);
-
+    
     useEffect(() => {
         setCars([]);
     }, [query])
@@ -22,9 +20,8 @@ const useCarsSearch = (query, page) => {
         if (!!query && query.length >= 3) {
             axios({
                 method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/api/car`,
+                url: `${process.env.REACT_APP_API_URL}/api/public/car`,
                 params: { query, page, size: 20 },
-                headers: { 'Authorization': `Bearer ${token}` },
                 cancelToken: new axios.CancelToken(c => cancel = c)
             }).then(res => {
                 setCars(prevCars => {
@@ -45,7 +42,7 @@ const useCarsSearch = (query, page) => {
         }
         return () => { };
 
-    }, [query, page, token]);
+    }, [query, page]);
 
     return { loading, error, cars, hasMore };
 }

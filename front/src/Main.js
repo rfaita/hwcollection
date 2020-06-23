@@ -12,6 +12,8 @@ import {
 import Collection from './Collection';
 import Favorite from './Favorite';
 import Search from './Search';
+import Login from './Login';
+import SignUp from './SignUp';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -89,7 +91,7 @@ const Main = (props) => {
             <div className={classes.main}>
                 <Switch>
                     <Route exact path="/">
-                        <Collection />
+                        <Search />
                     </Route>
                     <Route path="/collection">
                         <Collection />
@@ -99,6 +101,12 @@ const Main = (props) => {
                     </Route>
                     <Route path="/search">
                         <Search />
+                    </Route>
+                    <Route path="/login">
+                        <Login />
+                    </Route>
+                    <Route path="/signup">
+                        <SignUp />
                     </Route>
                 </Switch>
             </div>

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
 import useCarsFavorite from './hooks/useCarsFavorite';
 import { LoginContext } from './providers/LoginProvider';
-import { Grid, LinearProgress } from '@material-ui/core';
+import { Grid, LinearProgress, Typography } from '@material-ui/core';
 import Car from './Car';
 
 const Favorite = (props) => {
@@ -36,15 +36,21 @@ const Favorite = (props) => {
 
     return (
         <div>
-            <Grid container spacing={2}>
-                {cars.map((car, index) => {
-                    return (
-                        <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                            <Car car={car.car} userId={user.uid} />
-                        </Grid>
-                    );
-                })}
-            </Grid>
+            {cars.length > 0 ?
+                <Grid container spacing={2}>
+                    {cars.map((car, index) => {
+                        return (
+                            <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                                <Car car={car.car} userId={user.uid} />
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+                :
+                <Typography variant="body2">
+                    Your favorites is empty, start adding some cars =)
+                </Typography>
+            }
             {loading && <LinearProgress />}
         </div>
     );

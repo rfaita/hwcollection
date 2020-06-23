@@ -36,9 +36,7 @@ public class DatabaseLoader implements CommandLineRunner {
         List<Car> cars = objectMapper.readValue(resource.getInputStream(), new TypeReference<List<Car>>() {
         });
 
-        //carRepository.deleteAll();
-
-
+        carRepository.deleteAll();
         cars.forEach(car -> {
 
             car.setStats(carStatsRepository.findOneByCarId(car.getId()));

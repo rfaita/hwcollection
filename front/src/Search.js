@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Grid, LinearProgress } from '@material-ui/core';
+import { Grid, LinearProgress, makeStyles } from '@material-ui/core';
 import Car from './Car';
 import useCarsSearch from './hooks/useCarsSearch';
 import { useLocation } from 'react-router-dom';
@@ -8,7 +8,15 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 }
 
+const useStyles = makeStyles((theme) => ({
+    loading: {
+        background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+    },
+}));
+
 const Search = (props) => {
+
+    const classes = useStyles();
 
     const [query, setQuery] = useState(props.query);
     const [page, setPage] = useState(0);
@@ -61,7 +69,7 @@ const Search = (props) => {
                 })}
 
             </Grid>
-            {loading && <LinearProgress />}
+            {loading && <LinearProgress color="secondary" className={classes.loading} />}
         </div>
     );
 

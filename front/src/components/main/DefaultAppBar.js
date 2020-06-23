@@ -11,7 +11,6 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import { LoginContext } from '../../providers/LoginProvider';
 
 import { Link } from "react-router-dom";

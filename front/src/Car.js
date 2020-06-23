@@ -26,6 +26,7 @@ const useStyles = makeStyles({
   },
   media: {
     height: 240,
+    backgroundPosition: 'bottom'
   },
   key: {
     top: 7,

@@ -19,15 +19,15 @@ const Search = (props) => {
 
     useEffect(() => {
         if (!!q) {
-            setQuery(q);            
+            setQuery(q);
         } else {
-            setQuery(new Date().getFullYear() + '');            
+            setQuery(new Date().getFullYear() + '');
         }
         setPage(0);
     }, [q])
 
     const {
-        loading, error,
+        loading,
         cars, hasMore
     } = useCarsSearch(query, page);
 
@@ -55,7 +55,7 @@ const Search = (props) => {
                 {cars.map((car, index) => {
                     return (
                         <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                            <Car car={car}/>
+                            <Car car={car} />
                         </Grid>
                     );
                 })}

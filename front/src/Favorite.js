@@ -11,7 +11,7 @@ const Favorite = (props) => {
     const { user } = useContext(LoginContext);
 
     const {
-        loading, error,
+        loading,
         cars, hasMore
     } = useCarsFavorite(user.uid, page);
 

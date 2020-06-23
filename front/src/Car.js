@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import Card from '@material-ui/core/Card';
@@ -96,8 +96,8 @@ const Car = (props) => {
   const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.stats?.favoriteds?.indexOf(user?.uid) > -1 });
   const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.stats?.collections?.indexOf(user?.uid) > -1 });
 
-  const favoriteCtrl = useFavoriteCar(favorited);
-  const collectionCtrl = useCollectCar(collected);
+  useFavoriteCar(favorited);
+  useCollectCar(collected);
 
 
   const history = useHistory();

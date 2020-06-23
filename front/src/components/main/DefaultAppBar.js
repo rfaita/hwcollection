@@ -15,9 +15,10 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { LoginContext } from '../../providers/LoginProvider';
 
 import { Link } from "react-router-dom";
-import { Tooltip, Breadcrumbs } from '@material-ui/core';
-import useTop5Query from '../../hooks/useTop5Query';
+import { Tooltip } from '@material-ui/core';
 import { deepPurple, deepOrange, blue, cyan, green, red, yellow } from '@material-ui/core/colors';
+
+import useTop5Query from '../../hooks/useTop5Query';
 
 const useStyles = makeStyles((theme) => ({
     logo: {

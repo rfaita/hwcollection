@@ -11,7 +11,7 @@ const Collection = (props) => {
     const { user } = useContext(LoginContext);
 
     const {
-        loading, error,
+        loading,
         cars, hasMore
     } = useCarsCollection(user.uid, page);
 

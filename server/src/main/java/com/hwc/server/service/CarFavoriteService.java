@@ -5,8 +5,6 @@ import com.hwc.server.model.CarFavorite;
 import com.hwc.server.model.CarStats;
 import com.hwc.server.repository.CarFavoriteRepository;
 import com.hwc.server.repository.CarRepository;
-import com.hwc.server.repository.CarStatsRepository;
-import io.netty.util.internal.ObjectUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

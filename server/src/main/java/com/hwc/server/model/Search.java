@@ -16,6 +16,6 @@ public class Search {
     @Id
     private String query;
     private Long hits;
-    @Indexed(expireAfterSeconds = 24*3600)
+    @Indexed(expireAfterSeconds = 24 * 3600)
     private LocalDateTime updatedAt;
 }

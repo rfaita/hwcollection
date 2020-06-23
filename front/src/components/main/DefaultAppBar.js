@@ -236,13 +236,18 @@ const DefaultAppBar = (props) => {
                 </div>
                 <div className={classes.sectionMobile}>
                     <IconButton
-                        aria-label="show more"
+                        edge="end"
+                        aria-label="account of current user"
                         aria-controls={props.mobileMenuId}
                         aria-haspopup="true"
                         onClick={props.handleMobileMenuOpen}
                         color="inherit"
                     >
-                        <MoreIcon />
+                        {!!user ?
+                            !!user.photoURL ?
+                                <Avatar alt={user.displayName} src={user.photoURL} />
+                                : <Avatar className={classes[randomColor()]}>{user.email.slice(0, 2).toUpperCase()}</Avatar>
+                            : <AccountCircle />}
                     </IconButton>
                 </div>
             </Toolbar>

@@ -4,13 +4,12 @@ import { LoginContext } from '../providers/LoginProvider';
 
 const useFavoriteCar = (favorited) => {
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
 
     const didMount = useRef(false);
 
     const { token } = useContext(LoginContext);
-
 
     useEffect(() => {
         if (didMount.current) {
@@ -33,7 +32,9 @@ const useFavoriteCar = (favorited) => {
 
             return () => { };
         } else {
-            didMount.current = true;
+            if (!!favorited && !!token) {
+                didMount.current = true;
+            }
         }
     }, [favorited, token]);
 

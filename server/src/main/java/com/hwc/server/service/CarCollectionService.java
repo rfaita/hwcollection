@@ -2,7 +2,6 @@ package com.hwc.server.service;
 
 import com.hwc.server.model.Car;
 import com.hwc.server.model.CarCollection;
-import com.hwc.server.model.CarFavorite;
 import com.hwc.server.model.CarStats;
 import com.hwc.server.repository.CarCollectionRepository;
 import com.hwc.server.repository.CarRepository;

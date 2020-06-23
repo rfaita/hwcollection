@@ -4,13 +4,12 @@ import { LoginContext } from '../providers/LoginProvider';
 
 const useCollectCar = (collected) => {
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState();
 
     const didMount = useRef(false);
 
     const { token } = useContext(LoginContext);
-
 
     useEffect(() => {
         if (didMount.current) {
@@ -33,7 +32,9 @@ const useCollectCar = (collected) => {
 
             return () => { };
         } else {
-            didMount.current = true;
+            if (!!collected && !!token) {
+                didMount.current = true;
+            }
         }
     }, [collected, token]);
 

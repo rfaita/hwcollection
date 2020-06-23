@@ -13,7 +13,7 @@ const Favorite = (props) => {
     const {
         loading,
         cars, hasMore
-    } = useCarsFavorite(user.uid, page);
+    } = useCarsFavorite(user?.uid, page);
 
 
     const observer = useRef();
@@ -36,20 +36,24 @@ const Favorite = (props) => {
 
     return (
         <div>
-            {cars.length > 0 ?
-                <Grid container spacing={2}>
-                    {cars.map((car, index) => {
-                        return (
-                            <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                <Car car={car.car} userId={user.uid} />
-                            </Grid>
-                        );
-                    })}
-                </Grid>
-                :
-                <Typography variant="body2">
-                    Your favorites is empty, start adding some cars =)
-                </Typography>
+            {!loading &&
+                <div>
+                    {cars.length > 0 ?
+                        <Grid container spacing={2}>
+                            {cars.map((car, index) => {
+                                return (
+                                    <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                                        <Car car={car.car} userId={user.uid} />
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                        :
+                        <Typography variant="body2">
+                            Your favorites is empty, start adding some cars =)
+                        </Typography>
+                    }
+                </div>
             }
             {loading && <LinearProgress />}
         </div>

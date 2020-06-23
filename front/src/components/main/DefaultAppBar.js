@@ -22,7 +22,7 @@ import useTop5Query from '../../hooks/useTop5Query';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
-        height: 25,
+        height: 18,
         marginRight: 10,
         [theme.breakpoints.up('sm')]: {
             height: 50,
@@ -100,6 +100,10 @@ const useStyles = makeStyles((theme) => ({
     top5a: {
         marginRight: 7,
         fontWeight: 'bold',
+    },
+    top5t: {
+        fontSize: '0.775rem',
+        lineHeight: 1
     },
     appBar: {
         background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
@@ -183,7 +187,7 @@ const DefaultAppBar = (props) => {
                         {searchs.map(search => {
                             return (
                                 <Link to={`/search?q=${search.query}`} key={search.query} className={classes.top5a}>
-                                    <Typography variant="subtitle2" component="span">
+                                    <Typography variant="subtitle2" component="span" className={classes.top5t}>
                                         {search.query}
                                     </Typography>
                                 </Link>

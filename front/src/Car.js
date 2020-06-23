@@ -91,33 +91,31 @@ const Car = (props) => {
 
   const classes = useStyles();
 
+  const history = useHistory();
   const { user } = useContext(LoginContext);
 
-  const [favorited, setFavorited] = useState({ carId: props.car.id, favorited: props.car.stats?.favoriteds?.indexOf(user?.uid) > -1 });
-  const [collected, setCollected] = useState({ carId: props.car.id, collected: props.car.stats?.collections?.indexOf(user?.uid) > -1 });
+  const [favorited, setFavorited] = useState({ carId: props.car.id });
+  const [collected, setCollected] = useState({ carId: props.car.id });
 
-  useFavoriteCar(favorited);
-  useCollectCar(collected);
+  const favoriteCtrl = useFavoriteCar(favorited);
+  const collectCtrl = useCollectCar(collected);
 
-
-  const history = useHistory();
 
   function favorite() {
 
     if (!!user) {
       if (!props.car.stats) {
-        props.car.stats = {
-          collections: [],
-          favoriteds: []
-        };
+        props.car.stats = { collections: [], favoriteds: [] };
       }
 
-      if (!favorited.favorited) {
-        props.car.stats.favoriteds = [...props.car.stats.favoriteds, user?.uid];
+      const userHasFavorited = props.car.stats.favoriteds.indexOf(user.uid) > -1;
+
+      if (!userHasFavorited) {
+        props.car.stats.favoriteds = [...props.car.stats.favoriteds, user.uid];
       } else {
-        props.car.stats.favoriteds = props.car.stats.favoriteds.filter(item => item !== user?.uid)
+        props.car.stats.favoriteds = props.car.stats.favoriteds.filter(item => item !== user.uid)
       }
-      setFavorited(prev => { return { ...prev, favorited: !prev.favorited } });
+      setFavorited(prev => { return { ...prev, favorited: !userHasFavorited } });
     } else {
       history.push("/login");
     }
@@ -127,18 +125,17 @@ const Car = (props) => {
 
     if (!!user) {
       if (!props.car.stats) {
-        props.car.stats = {
-          collections: [],
-          favoriteds: []
-        };
+        props.car.stats = { collections: [], favoriteds: [] };
       }
 
-      if (!collected.collected) {
-        props.car.stats.collections = [...props.car.stats.collections, user?.uid];
+      const userHasCollected = props.car.stats.collections.indexOf(user.uid) > -1;
+
+      if (!userHasCollected) {
+        props.car.stats.collections = [...props.car.stats.collections, user.uid];
       } else {
-        props.car.stats.collections = props.car.stats.collections.filter(item => item !== user?.uid)
+        props.car.stats.collections = props.car.stats.collections.filter(item => item !== user.uid)
       }
-      setCollected(prev => { return { ...prev, collected: !prev.collected } });
+      setCollected(prev => { return { ...prev, collected: !userHasCollected } });
     } else {
       history.push("/login");
     }
@@ -209,12 +206,12 @@ const Car = (props) => {
 
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" color="primary" onClick={() => { favorite() }}>
-          {favorited.favorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        <IconButton aria-label="add to favorites" color="primary" onClick={favorite} disabled={favoriteCtrl.loading}>
+          {props.car.stats?.favoriteds?.indexOf(user?.uid) > -1 ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
         <span>{props.car.stats?.favoriteds?.length}</span>
-        <IconButton aria-label="add to collection" color="primary" onClick={() => { collect() }}>
-          {collected.collected ? <RemoveIcon /> : <AddIcon />}
+        <IconButton aria-label="add to collection" color="primary" onClick={collect} disabled={collectCtrl.loading}>
+          {props.car.stats?.collections?.indexOf(user?.uid) > -1 ? <RemoveIcon /> : <AddIcon />}
         </IconButton>
         <span>{props.car.stats?.collections?.length}</span>
         <IconButton aria-label="share" color="primary">

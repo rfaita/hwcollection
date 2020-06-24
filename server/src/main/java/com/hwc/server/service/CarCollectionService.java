@@ -51,7 +51,7 @@ public class CarCollectionService {
 
     public void removeCollection(String userId, String carId) {
 
-        Optional<CarCollection> carCollection = carCollectionRepository.findOneByCarId(carId);
+        Optional<CarCollection> carCollection = carCollectionRepository.findOneByUserIdAndCarId(userId, carId);
 
         if (carCollection.isPresent()) {
 

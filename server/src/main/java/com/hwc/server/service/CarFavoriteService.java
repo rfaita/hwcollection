@@ -51,7 +51,7 @@ public class CarFavoriteService {
 
     public void removeFavorite(String userId, String carId) {
 
-        Optional<CarFavorite> carFavorite = carFavoriteRepository.findOneByCarId(carId);
+        Optional<CarFavorite> carFavorite = carFavoriteRepository.findOneByUserIdAndCarId(userId, carId);
 
         if (carFavorite.isPresent()) {
 

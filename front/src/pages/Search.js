@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Grid, LinearProgress, makeStyles } from '@material-ui/core';
+import { Grid, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 
 import Car from '../components/main/Car';
 import useCarsSearch from '../hooks/useCarsSearch';
@@ -13,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     loading: {
         background: theme.palette.primary.backgroundGradient
     },
+    sad: {
+        marginRight: theme.spacing(1),
+        
+    }
 }));
 
 const Search = (props) => {
@@ -60,16 +65,27 @@ const Search = (props) => {
 
     return (
         <div>
-            <Grid container spacing={2}>
-                {cars.map((car, index) => {
-                    return (
-                        <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                            <Car car={car} />
+            {!loading &&
+                <div>
+                    {cars.length > 0 ?
+                        <Grid container spacing={2}>
+                            {cars.map((car, index) => {
+                                return (
+                                    <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                                        <Car car={car} />
+                                    </Grid>
+                                );
+                            })}
                         </Grid>
-                    );
-                })}
+                        :
+                        <Typography variant="body">
+                            <SentimentVeryDissatisfiedIcon className={classes.sad}/> 
+                            Your search do not return cars, try another query
+                        </Typography>
 
-            </Grid>
+                    }
+                </div>
+            }
             {loading && <LinearProgress className={classes.loading} />}
         </div>
     );

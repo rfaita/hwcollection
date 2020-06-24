@@ -3,11 +3,16 @@ import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core'
 import Car from '../components/main/Car';
 import useCarsCollection from '../hooks/useCarsCollection';
 import { LoginContext } from '../providers/LoginProvider';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 
 const useStyles = makeStyles((theme) => ({
     loading: {
         background: theme.palette.primary.backgroundGradient
     },
+    sad: {
+        marginRight: theme.spacing(1),
+
+    }
 }));
 
 
@@ -52,14 +57,15 @@ const Collection = (props) => {
                             {cars.map((car, index) => {
                                 return (
                                     <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                        <Car car={car.car} userId={user.uid} />
+                                        <Car car={car.car} />
                                     </Grid>
                                 );
                             })}
                         </Grid>
                         :
-                        <Typography variant="body2">
-                            Your collection is empty, start adding some cars =)
+                        <Typography variant="body">
+                            <SentimentVeryDissatisfiedIcon className={classes.sad}/> 
+                            Your collection is empty, start adding some cars
                         </Typography>
                     }
                 </div>

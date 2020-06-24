@@ -147,7 +147,7 @@ const Car = (props) => {
     <Card className={classes.root}>
       <CardActionArea>
         {!!props.car.photo ?
-          <CardMedia
+          <CardMedia onClick={() => console.log("click")}
             className={classes.media}
             image={`${process.env.REACT_APP_CDN_URL}${props.car.id}${props.car.photo}`}
             title={props.car.name}

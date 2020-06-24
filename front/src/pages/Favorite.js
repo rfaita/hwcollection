@@ -3,11 +3,16 @@ import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core'
 import Car from '../components/main/Car';
 import useCarsFavorite from '../hooks/useCarsFavorite';
 import { LoginContext } from '../providers/LoginProvider';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 
 const useStyles = makeStyles((theme) => ({
     loading: {
         background: theme.palette.primary.backgroundGradient
     },
+    sad: {
+        marginRight: theme.spacing(1),
+        
+    }
 }));
 
 const Favorite = (props) => {
@@ -51,15 +56,18 @@ const Favorite = (props) => {
                             {cars.map((car, index) => {
                                 return (
                                     <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                        <Car car={car.car} userId={user.uid} />
+                                        <Car car={car.car} />
                                     </Grid>
                                 );
                             })}
                         </Grid>
                         :
-                        <Typography variant="body2">
-                            Your favorites is empty, start adding some cars =)
+
+                        <Typography variant="body">
+                            <SentimentVeryDissatisfiedIcon className={classes.sad}/> 
+                            Your favorites is empty, start adding some cars
                         </Typography>
+
                     }
                 </div>
             }

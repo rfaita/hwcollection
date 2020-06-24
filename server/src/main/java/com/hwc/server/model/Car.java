@@ -24,13 +24,13 @@ public class Car {
 
     @Id
     private String id;
-    @TextIndexed(weight = 7f)
+    @TextIndexed(weight = 10f)
     private String name;
     private String number;
     private String numberTotal;
-    @TextIndexed(weight = 9f)
+    @TextIndexed(weight = 20f)
     private String year;
-    @TextIndexed(weight = 8f)
+    @TextIndexed(weight = 15f)
     private String series;
     private String seriesNumber;
     private String seriesTotalNumber;

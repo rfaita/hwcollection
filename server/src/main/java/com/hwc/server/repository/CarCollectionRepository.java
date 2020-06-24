@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface CarCollectionRepository extends MongoRepository<CarCollection, String> {
 
-    Optional<CarCollection> findOneByCarId(String carId);
+    Optional<CarCollection> findOneByUserIdAndCarId(String userId, String carId);
 
     Page<CarCollection> findAllByUserId(String userId, Pageable pageable);
 

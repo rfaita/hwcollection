@@ -50,26 +50,30 @@ const Collection = (props) => {
 
     return (
         <div>
-            {!loading &&
-                <div>
-                    {cars.length > 0 ?
-                        <Grid container spacing={2}>
-                            {cars.map((car, index) => {
-                                return (
-                                    <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                        <Car car={car.car} />
-                                    </Grid>
-                                );
-                            })}
-                        </Grid>
-                        :
-                        <Typography variant="body">
-                            <SentimentVeryDissatisfiedIcon className={classes.sad}/> 
+
+            <div>
+                {cars.length > 0 ?
+                    <Grid container spacing={2}>
+                        {cars.map((car, index) => {
+                            return (
+                                <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
+                                    <Car car={car.car} />
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                    :
+                    <div>
+                        {!loading &&
+                            <Typography variant="body">
+                                <SentimentVeryDissatisfiedIcon className={classes.sad} />
                             Your collection is empty, start adding some cars
                         </Typography>
-                    }
-                </div>
-            }
+                        }
+                    </div>
+                }
+            </div>
+
             {loading && <LinearProgress className={classes.loading} />}
         </div>
     );

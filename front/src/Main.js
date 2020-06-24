@@ -9,20 +9,20 @@ import {
     withRouter,
     useHistory
 } from "react-router-dom";
-import Collection from './Collection';
-import Favorite from './Favorite';
-import Search from './Search';
-import Login from './Login';
-import SignUp from './SignUp';
+import Collection from './pages/Collection';
+import Favorite from './pages/Favorite';
+import Search from './pages/Search';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
         flexGrow: 1,
     },
     main: {
-        marginRight: 10,
-        marginLeft: 10,
-        marginTop: 90,
+        marginRight: theme.spacing(1),
+        marginLeft: theme.spacing(1),
+        marginTop: theme.spacing(11),
         flexGrow: 1,
     }
 }));

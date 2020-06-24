@@ -1,8 +1,9 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Grid, LinearProgress, makeStyles } from '@material-ui/core';
-import Car from './Car';
-import useCarsSearch from './hooks/useCarsSearch';
 import { useLocation } from 'react-router-dom';
+
+import Car from '../components/main/Car';
+import useCarsSearch from '../hooks/useCarsSearch';
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
@@ -10,7 +11,7 @@ const useQuery = () => {
 
 const useStyles = makeStyles((theme) => ({
     loading: {
-        background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+        background: theme.palette.primary.backgroundGradient
     },
 }));
 
@@ -69,7 +70,7 @@ const Search = (props) => {
                 })}
 
             </Grid>
-            {loading && <LinearProgress color="secondary" className={classes.loading} />}
+            {loading && <LinearProgress className={classes.loading} />}
         </div>
     );
 

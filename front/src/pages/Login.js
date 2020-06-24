@@ -11,10 +11,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { signInWithGoogle, signInWithEmailAndPassword } from "./services/firebase";
 import { Redirect, Link as LinkRouter } from 'react-router-dom';
-import { LoginContext } from './providers/LoginProvider';
 import { Snackbar } from '@material-ui/core';
+
+import { LoginContext } from '../providers/LoginProvider';
+import { signInWithGoogle, signInWithEmailAndPassword } from "../services/firebase";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,17 +32,16 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
-    facebook: {
-        height: 45,
-    },
+    
     google: {
         height: 45,
-        marginTop: 10,
-        marginBottom: 10
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1)
     },
 }));
 

@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     top5: {
-        color: '#ffffff',
+        color: theme.palette.common.white,
         fontSize: 12,
         marginTop: 3,
         marginLeft: 0,
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: 1
     },
     appBar: {
-        background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+        background: theme.palette.primary.backgroundGradient,
         minHeight: 70
     },
     mostSearched: {

@@ -15,12 +15,12 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Tooltip from '@material-ui/core/Tooltip';
-import useFavoriteCar from './hooks/useFavoriteCar';
-import useCollectCar from './hooks/useCollectCar';
+import useFavoriteCar from '../../hooks/useFavoriteCar';
+import useCollectCar from '../../hooks/useCollectCar';
 import { Link, useHistory } from 'react-router-dom';
-import { LoginContext } from './providers/LoginProvider';
+import { LoginContext } from '../../providers/LoginProvider';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '100%',
   },
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     left: 7,
     position: 'absolute',
     height: 20,
-    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+    background: theme.palette.primary.backgroundGradient
   },
   country: {
     width: 32,
@@ -54,7 +54,7 @@ const useStyles = makeStyles({
     right: 7,
     position: 'absolute',
     fontSize: 10,
-    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+    background: theme.palette.primary.backgroundGradient
   },
   year: {
     height: 18,
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
     left: 7,
     position: 'absolute',
     fontSize: 10,
-    background: 'linear-gradient(90deg, #FF8E53 30%, #FF2424 90%)',
+    background: theme.palette.primary.backgroundGradient
   },
   series: {
     float: 'left',
@@ -86,7 +86,7 @@ const useStyles = makeStyles({
     height: 200,
     overflowY: 'auto'
   }
-});
+}));
 
 const Car = (props) => {
 

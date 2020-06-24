@@ -7,10 +7,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { createUserWithEmailAndPassword } from "./services/firebase";
 import { Redirect } from 'react-router-dom';
-import { LoginContext } from './providers/LoginProvider';
 import { Snackbar } from '@material-ui/core';
+import { createUserWithEmailAndPassword } from "../services/firebase";
+import { LoginContext } from '../providers/LoginProvider';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,14 +30,6 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-    },
-    facebook: {
-        height: 45,
-    },
-    google: {
-        height: 45,
-        marginTop: 10,
-        marginBottom: 10
     },
 }));
 
@@ -136,7 +128,7 @@ export default function SignUp() {
                                     e.preventDefault();
                                     setLoading(true);
                                     if (pass === confPass) {
-                                        
+
                                         try {
                                             await createUserWithEmailAndPassword(email, pass);
                                         } catch (err) {

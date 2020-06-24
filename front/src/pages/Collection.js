@@ -1,10 +1,19 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
-import useCarsFavorite from './hooks/useCarsFavorite';
-import { LoginContext } from './providers/LoginProvider';
-import { Grid, LinearProgress, Typography } from '@material-ui/core';
-import Car from './Car';
+import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core';
+import Car from '../components/main/Car';
+import useCarsCollection from '../hooks/useCarsCollection';
+import { LoginContext } from '../providers/LoginProvider';
 
-const Favorite = (props) => {
+const useStyles = makeStyles((theme) => ({
+    loading: {
+        background: theme.palette.primary.backgroundGradient
+    },
+}));
+
+
+const Collection = (props) => {
+
+    const classes = useStyles();
 
     const [page, setPage] = useState(0);
 
@@ -13,7 +22,7 @@ const Favorite = (props) => {
     const {
         loading,
         cars, hasMore
-    } = useCarsFavorite(user?.uid, page);
+    } = useCarsCollection(user?.uid, page);
 
 
     const observer = useRef();
@@ -50,15 +59,15 @@ const Favorite = (props) => {
                         </Grid>
                         :
                         <Typography variant="body2">
-                            Your favorites is empty, start adding some cars =)
+                            Your collection is empty, start adding some cars =)
                         </Typography>
                     }
                 </div>
             }
-            {loading && <LinearProgress />}
+            {loading && <LinearProgress className={classes.loading} />}
         </div>
     );
 
 }
 
-export default Favorite;
+export default Collection;

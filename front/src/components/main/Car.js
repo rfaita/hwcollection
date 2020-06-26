@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -215,15 +215,16 @@ const Car = (props) => {
           {props.car.stats?.collections?.indexOf(user?.uid) > -1 ? <RemoveIcon /> : <AddIcon />}
         </IconButton>
         <span>{props.car.stats?.collections?.length}</span>
-        <IconButton aria-label="share" color="primary">
-          <ShareIcon />
+        <IconButton aria-label="trade" color="primary" onClick={() => { props.handleOpenTrade(props.car) }}>
+          <RepeatIcon />
         </IconButton>
         <IconButton aria-label="show more" color="primary" className={classes.marginLeftAuto}>
           <MoreHorizIcon />
         </IconButton>
-      </CardActions>
 
+      </CardActions>
     </Card>
+
   );
 
 }

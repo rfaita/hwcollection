@@ -8,15 +8,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class SecurityHelper {
 
-    public String getUserId() {
+    private FirebaseToken getToken() {
 
         UsernamePasswordAuthenticationToken auth
                 = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        FirebaseToken firebaseToken = (FirebaseToken) auth.getPrincipal();
+        return  (FirebaseToken) auth.getPrincipal();
 
-        return firebaseToken.getUid();
+    }
 
+    public String getUserId() {
+        return getToken().getUid();
+    }
+
+    public String getEmail() {
+        return getToken().getEmail();
     }
 
 }

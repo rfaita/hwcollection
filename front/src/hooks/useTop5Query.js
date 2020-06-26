@@ -6,7 +6,6 @@ const useTop5Query = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [searchs, setSearchs] = useState([]);
-
     
     useEffect(() => {
 

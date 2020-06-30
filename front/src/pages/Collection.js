@@ -1,24 +1,10 @@
 import React, { useState, useContext, useRef, useCallback } from 'react';
-import { Grid, LinearProgress, Typography, makeStyles } from '@material-ui/core';
-import Car from '../components/main/Car';
 import useCarsCollection from '../hooks/useCarsCollection';
 import { LoginContext } from '../providers/LoginProvider';
-import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
-
-const useStyles = makeStyles((theme) => ({
-    loading: {
-        background: theme.palette.primary.backgroundGradient
-    },
-    sad: {
-        marginRight: theme.spacing(1),
-
-    }
-}));
+import CarGrid from '../components/main/CarGrid';
 
 
 const Collection = (props) => {
-
-    const classes = useStyles();
 
     const [page, setPage] = useState(0);
 
@@ -49,33 +35,8 @@ const Collection = (props) => {
     }, [loading, hasMore]);
 
     return (
-        <div>
-
-            <div>
-                {cars.length > 0 ?
-                    <Grid container spacing={2}>
-                        {cars.map((car, index) => {
-                            return (
-                                <Grid ref={cars.length === index + 1 ? lastCarElementRef : null} item xs={12} md={6} lg={3} key={car.id}>
-                                    <Car car={car.car} />
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-                    :
-                    <div>
-                        {!loading &&
-                            <Typography variant="body">
-                                <SentimentVeryDissatisfiedIcon className={classes.sad} />
-                            Your collection is empty, start adding some cars
-                        </Typography>
-                        }
-                    </div>
-                }
-            </div>
-
-            {loading && <LinearProgress className={classes.loading} />}
-        </div>
+        <CarGrid cars={cars} loading={loading} lastCarElementRef={lastCarElementRef}
+            emptyMessage="Your collection is empty, start adding some cars" />
     );
 
 }

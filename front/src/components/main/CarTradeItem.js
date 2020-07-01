@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import RepeatIcon from '@material-ui/icons/Repeat';
+import CloseIcon from '@material-ui/icons/Close';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItem from '@material-ui/core/ListItem';
 
@@ -13,6 +14,8 @@ import { ListItemAvatar, Avatar, Badge, Chip, ListItemSecondaryAction, Tooltip }
 import ImageIcon from '@material-ui/icons/Image';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import { LoginContext } from '../../providers/LoginProvider';
+import useTradeCancel from '../../hooks/useTradeCancel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,16 +33,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CarTradeItem = (props) => {
+const CarTradeItem = ({trade, reloadTrades}) => {
 
     const classes = useStyles();
+
+    const { user } = useContext(LoginContext);
+
+    const [tradeId, setTradeId] = useState();
+
+    const { loading, error, done } = useTradeCancel(tradeId);
+
+    const cancel = () => {
+        setTradeId(trade.id);
+    }
+
+    useEffect(() => {
+        if (done) {
+            reloadTrades();
+        }
+    }, [done, reloadTrades]);
+
 
     return (
         <Fragment>
             <ListItem>
                 <ListItemAvatar>
-                    <Badge classes={{ badge: classes[props.trade.type.toLowerCase()] }} overlap="circle"
-                        badgeContent={props.trade.type}
+                    <Badge classes={{ badge: classes[trade.type.toLowerCase()] }} overlap="circle"
+                        badgeContent={trade.type}
                         anchorOrigin={{
                             vertical: 'top',
                             horizontal: 'left',
@@ -53,21 +73,21 @@ const CarTradeItem = (props) => {
                     primary={
                         <Fragment>
                             <Typography variant="button" component="div">
-                                {props.trade.title}
+                                {trade.title}
                             </Typography>
-                            <Link to={`/search?q=${!!props.trade.car.key ? props.trade.car.key : props.trade.car.name}`}>
+                            <Link to={`/search?q=${!!trade.car.key ? trade.car.key : trade.car.name}`}>
                                 <Typography variant="button" component="div">
-                                    {props.trade.car.name}
+                                    {trade.car.name}
                                 </Typography>
                             </Link>
-                            <Link to={`/trades/${props.trade.userId}`}>
+                            <Link to={`/trades/${trade.userId}`}>
                                 <Chip
                                     size="small"
                                     color="default"
                                     avatar={
-                                        <Avatar style={{ height: 20, width: 20 }}>{props.trade.user?.rank}</Avatar>
+                                        <Avatar style={{ height: 20, width: 20 }}>{trade.user?.rank}</Avatar>
                                     }
-                                    label={props.trade.user?.email}
+                                    label={trade.user?.email}
                                     variant="outlined"
                                     onClick={() => console.log("asdasd")}
                                 />
@@ -77,17 +97,25 @@ const CarTradeItem = (props) => {
                     secondary={
                         <Typography variant="overline" component="div">
                             <Moment format="MM/DD/YYYY HH:mm">
-                                {props.trade.createdAt}
+                                {trade.createdAt}
                             </Moment>
                         </Typography>
                     }
                 />
                 <ListItemSecondaryAction>
-                    <Tooltip title="Start trade" >
-                        <IconButton aria-label="trade">
-                            <RepeatIcon />
-                        </IconButton>
-                    </Tooltip>
+                    {trade.user.uid !== user?.uid ?
+                        <Tooltip title="Start trade" >
+                            <IconButton aria-label="trade">
+                                <RepeatIcon />
+                            </IconButton>
+                        </Tooltip>
+                        :
+                        <Tooltip title="Remove trade" >
+                            <IconButton aria-label="trade" disabled={loading} onClick={cancel}>
+                                <CloseIcon />
+                            </IconButton>
+                        </Tooltip>
+                    }
                 </ListItemSecondaryAction>
             </ListItem>
             <Divider />

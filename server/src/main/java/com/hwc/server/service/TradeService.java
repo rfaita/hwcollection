@@ -44,4 +44,17 @@ public class TradeService {
         return tradeRepository.save(trade);
     }
 
+    public void cancel(String tradeId, String userId) {
+
+        Trade trade = tradeRepository.findById(tradeId).orElse(null);
+
+        if (!ObjectUtils.isEmpty(trade)) {
+            if (trade.getUserId().equals(userId)) {
+                tradeRepository.deleteById(tradeId);
+            } else {
+                throw new ValidationException("You aren't owner of trade.");
+            }
+        }
+
+    }
 }

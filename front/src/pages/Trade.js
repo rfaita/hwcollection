@@ -9,7 +9,12 @@ const Trade = (props) => {
 
     const [page, setPage] = useState(0);
 
-    const { trades, loading, hasMore } = useTradesByUserId(userId, page);
+    const { trades, loading, hasMore, reload } = useTradesByUserId(userId, page);
+
+    const reloadTrades = useCallback(() => {
+        setPage(0);
+        reload();
+    }, [reload]);
 
     const observer = useRef();
     const lastTradeElementRef = useCallback(node => {
@@ -30,7 +35,7 @@ const Trade = (props) => {
     }, [loading, hasMore]);
 
     return (
-        <CarTradeGrid loading={loading} trades={trades} lastTradeElementRef={lastTradeElementRef} />
+        <CarTradeGrid loading={loading} trades={trades} reloadTrades={reloadTrades} lastTradeElementRef={lastTradeElementRef} />
     )
 }
 

@@ -63,6 +63,11 @@ const CarTrade = (props) => {
 
     const { trades, loading, hasMore, reload } = useTrades(props.car?.id, page);
 
+    const reloadTrades = useCallback(() => {
+        setPage(0);
+        reload();
+    }, [reload]);
+
     const observer = useRef();
     const lastTradeElementRef = useCallback(node => {
         if (loading) {
@@ -104,13 +109,13 @@ const CarTrade = (props) => {
                                 </IconButton>
                             </Toolbar>
                         </AppBar>
-                        <CarTradeGrid loading={loading} trades={trades} lastTradeElementRef={lastTradeElementRef} /> 
+                        <CarTradeGrid loading={loading} trades={trades} lastTradeElementRef={lastTradeElementRef} reloadTrades={reloadTrades}/> 
                         <Fab aria-label="trade" color="primary" className={classes.fab} disabled={loading} onClick={create}>
                             <Tooltip title="Create a trade">
                                 <RepeatIcon />
                             </Tooltip>
                         </Fab>
-                        <CarTradeCreate car={props.car} open={openTradeCreate} handleClose={handleCloseTradeCreate} reloadTrades={reload} />
+                        <CarTradeCreate car={props.car} open={openTradeCreate} handleClose={handleCloseTradeCreate} reloadTrades={reloadTrades} />
                     </Dialog>
                 </Fragment>
 

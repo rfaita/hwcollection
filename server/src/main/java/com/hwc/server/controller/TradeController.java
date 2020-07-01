@@ -3,10 +3,7 @@ package com.hwc.server.controller;
 import com.hwc.server.component.SecurityHelper;
 import com.hwc.server.dto.CreateTrade;
 import com.hwc.server.model.Trade;
-import com.hwc.server.model.User;
-import com.hwc.server.service.CarService;
 import com.hwc.server.service.TradeService;
-import com.hwc.server.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +34,11 @@ public class TradeController {
         return service.findAllByUserId(userId, page, size);
     }
 
+    @DeleteMapping("/trade/{tradeId}")
+    public void cancel(@PathVariable String tradeId) {
+
+        service.cancel(tradeId, securityHelper.getUserId());
+    }
 
     @PostMapping("/trade")
     public Trade create(@RequestBody @Valid CreateTrade createTrade) {

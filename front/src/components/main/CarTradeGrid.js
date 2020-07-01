@@ -51,7 +51,7 @@ const CarTradeGrid = (props) => {
                                 {props.trades.filter(trade => trade.type === "WTS").map((trade, index) => {
                                     return (
                                         <div ref={props.trades.filter(trade => trade.type === "WTS").length === index + 1 ? props.lastTradeElementRef : null} key={trade.id}>
-                                            <CarTradeItem trade={trade} />
+                                            <CarTradeItem trade={trade} reloadTrades={props.reloadTrades}/>
                                         </div>
                                     );
                                 })}
@@ -78,7 +78,7 @@ const CarTradeGrid = (props) => {
                                 {props.trades.filter(trade => trade.type === "WTB").map((trade, index) => {
                                     return (
                                         <div ref={props.trades.filter(trade => trade.type === "WTB").length === index + 1 ? props.lastTradeElementRef : null} key={trade.id}>
-                                            <CarTradeItem trade={trade} />
+                                            <CarTradeItem trade={trade} reloadTrades={props.reloadTrades}/>
                                         </div>
                                     );
                                 })}

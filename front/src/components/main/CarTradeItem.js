@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { ListItemAvatar, Avatar, Badge, Chip, ListItemSecondaryAction, Tooltip } from '@material-ui/core';
 import ImageIcon from '@material-ui/icons/Image';
 import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -54,16 +55,23 @@ const CarTradeItem = (props) => {
                             <Typography variant="button" component="div">
                                 {props.trade.title}
                             </Typography>
-                            <Chip
-                                size="small"
-                                color="default"
-                                avatar={
-                                    <Avatar style={{ height: 20, width: 20 }}>{props.trade.user?.rank}</Avatar>
-                                }
-                                label={props.trade.user?.email}
-                                variant="outlined"
-                                onClick={() => console.log("asdasd")}
-                            />
+                            <Link to={`/search?q=${!!props.trade.car.key ? props.trade.car.key : props.trade.car.name}`}>
+                                <Typography variant="button" component="div">
+                                    {props.trade.car.name}
+                                </Typography>
+                            </Link>
+                            <Link to={`/trades/${props.trade.userId}`}>
+                                <Chip
+                                    size="small"
+                                    color="default"
+                                    avatar={
+                                        <Avatar style={{ height: 20, width: 20 }}>{props.trade.user?.rank}</Avatar>
+                                    }
+                                    label={props.trade.user?.email}
+                                    variant="outlined"
+                                    onClick={() => console.log("asdasd")}
+                                />
+                            </Link>
                         </Fragment>
                     }
                     secondary={

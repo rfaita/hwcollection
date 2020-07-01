@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, makeStyles, Typography, LinearProgress } from '@material-ui/core';
 import CarTrade from './CarTrade';
 import Car from './Car';
@@ -20,6 +20,11 @@ const CarGrid = (props) => {
 
     const [openTrade, setOpenTrade] = useState(false);
     const [carTrade, setCarTrade] = useState();
+
+
+    useEffect(() => {
+        handleCloseTrade();
+    }, [props.cars])
 
     const handleOpenTrade = (car) => {
         setOpenTrade(true);
@@ -52,7 +57,7 @@ const CarGrid = (props) => {
                     :
                     <div>
                         {!props.loading &&
-                            <Typography variant="body">
+                            <Typography variant="body1">
                                 <SentimentVeryDissatisfiedIcon className={classes.sad} />
                                 {props.emptyMessage}
                             </Typography>}

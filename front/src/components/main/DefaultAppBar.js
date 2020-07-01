@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { LoginContext } from '../../providers/LoginProvider';
@@ -202,16 +203,23 @@ const DefaultAppBar = (props) => {
                     {!!user &&
                         <div>
                             <Link to={"/favorites"}>
-                                <Tooltip title="Favorites" aria-label="add">
+                                <Tooltip title="Favorites" aria-label="favorites">
                                     <IconButton aria-label="favorites" color="inherit">
                                         <FavoriteIcon />
                                     </IconButton>
                                 </Tooltip>
                             </Link>
                             <Link to={"/collection"}>
-                                <Tooltip title="My Collection" aria-label="add">
+                                <Tooltip title="My Collection" aria-label="collection">
                                     <IconButton aria-label="collection" color="inherit">
                                         <ListAltIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            </Link>
+                            <Link to={`/trades/${user.uid}`}>
+                                <Tooltip title="My Trades" aria-label="trades">
+                                    <IconButton aria-label="collection" color="inherit">
+                                        <RepeatIcon />
                                     </IconButton>
                                 </Tooltip>
                             </Link>

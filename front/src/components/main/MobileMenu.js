@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
+import RepeatIcon from '@material-ui/icons/Repeat';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -42,6 +43,14 @@ const MobileMenu = (props) => {
                                 <ListAltIcon />
                             </IconButton>
                             My Collection
+                        </MenuItem>
+                    </Link>
+                    <Link to={`/trades/${user.uid}`}>
+                        <MenuItem onClick={props.handleMobileMenuClose} >
+                            <IconButton color="inherit">
+                                <RepeatIcon />
+                            </IconButton>
+                            My Trades
                         </MenuItem>
                     </Link>
                     <MenuItem onClick={() => {

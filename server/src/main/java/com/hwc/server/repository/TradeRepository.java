@@ -11,5 +11,7 @@ public interface TradeRepository extends MongoRepository<Trade, String> {
 
     Page<Trade> findAllByCarId(String carId, Pageable pageable);
 
+    Page<Trade> findAllByUserId(String carId, Pageable pageable);
+
 
 }

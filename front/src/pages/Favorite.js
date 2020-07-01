@@ -4,7 +4,7 @@ import useCarsFavorite from '../hooks/useCarsFavorite';
 import { LoginContext } from '../providers/LoginProvider';
 import CarGrid from '../components/main/CarGrid';
 
-const Favorite = (props) => {
+const Favorite = () => {
 
     const [page, setPage] = useState(0);
 

@@ -14,6 +14,7 @@ import Favorite from './pages/Favorite';
 import Search from './pages/Search';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Trade from './pages/Trade';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -107,6 +108,9 @@ const Main = (props) => {
                     </Route>
                     <Route path="/signup">
                         <SignUp />
+                    </Route>
+                    <Route path="/trades/:userId">
+                        <Trade />
                     </Route>
                 </Switch>
             </div>

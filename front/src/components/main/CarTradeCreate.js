@@ -3,7 +3,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, S
 import useTrade from '../../hooks/useTrade';
 
 
-const CarTradeCreate = (props) => {
+const CarTradeCreate = ({reloadTrades, handleClose, open, car}) => {
 
     const [trade, setTrade] = useState();
 
@@ -26,10 +26,10 @@ const CarTradeCreate = (props) => {
         if (done) {
             setTitle('');
             setType('WTS');
-            props.handleClose();
-            props.reloadTrades();
+            handleClose();
+            reloadTrades();
         }
-    }, [done]);
+    }, [done, handleClose, reloadTrades]);
 
     const handleErrorClose = () => {
         setOpenError(false);
@@ -38,11 +38,11 @@ const CarTradeCreate = (props) => {
 
     const create = (e) => {
         e.preventDefault();
-        setTrade({ title, type, carId: props.car.id });
+        setTrade({ title, type, carId: car.id });
     }
 
     return (
-        <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Create trade</DialogTitle>
             <DialogContent>
                 <form noValidate onSubmit={create}>
@@ -68,7 +68,7 @@ const CarTradeCreate = (props) => {
 
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.handleClose} color="primary" disabled={loading}>
+                <Button onClick={handleClose} color="primary" disabled={loading}>
                     Close
                 </Button>
                 <Button onClick={create} color="primary" disabled={loading}>

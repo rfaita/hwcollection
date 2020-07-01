@@ -21,6 +21,11 @@ public class CarService {
     private final CarRepository carRepository;
     private final SearchRepository searchRepository;
 
+
+    public Car findById(String id) {
+        return carRepository.findById(id).orElse(null);
+    }
+
     public Page<Car> findAllBy(String query, int page, int size) {
 
         TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase(query);

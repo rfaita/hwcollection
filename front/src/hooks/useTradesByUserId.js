@@ -1,7 +1,7 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const useTrades = (carId, page) => {
+const useTradesByUserId = (userId, page) => {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -9,24 +9,24 @@ const useTrades = (carId, page) => {
     const [hasMore, setHasMore] = useState(false);
     const [_reload, _setReload] = useState({});
 
-    const reload = useCallback(() => {
+    const reload = () => {
         _setReload({});
-    }, []);
+    }
 
     useEffect(() => {
         setTrades([]);
-    }, [carId, _reload])
+    }, [userId, _reload])
 
     useEffect(() => {
         setLoading(true);
         setError(false);
         let cancel;
 
-        if (!!carId) {
+        if (!!userId) {
 
             axios({
                 method: 'GET',
-                url: `${process.env.REACT_APP_API_URL}/api/public/trade/${carId}`,
+                url: `${process.env.REACT_APP_API_URL}/api/public/trade/byUserId/${userId}`,
                 params: { page, size: 20 },
                 cancelToken: new axios.CancelToken(c => cancel = c)
             }).then(res => {
@@ -48,9 +48,9 @@ const useTrades = (carId, page) => {
         }
         return () => { };
 
-    }, [carId, page, _reload]);
+    }, [userId, page, _reload]);
 
     return { loading, error, trades, hasMore, reload };
 }
 
-export default useTrades;
+export default useTradesByUserId;

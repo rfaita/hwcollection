@@ -4,7 +4,7 @@ import { LoginContext } from '../providers/LoginProvider';
 import CarGrid from '../components/main/CarGrid';
 
 
-const Collection = (props) => {
+const Collection = () => {
 
     const [page, setPage] = useState(0);
 

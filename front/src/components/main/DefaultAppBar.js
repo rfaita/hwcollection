@@ -163,7 +163,7 @@ const DefaultAppBar = (props) => {
         <AppBar position="fixed" >
             <Toolbar className={classes.appBar}>
                 <Link to={"/"}>
-                    <img className={classes.logo} src="imgs/hwlogo.png" alt="hwlogo" />
+                    <img className={classes.logo} src="/imgs/hwlogo.png" alt="hwlogo" />
                 </Link>
                 <div>
                     <div className={classes.search}>

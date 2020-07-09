@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import DefaultMenu from './components/main/DefaultMenu';
 import MobileMenu from './components/main/MobileMenu';
 import DefaultAppBar from './components/main/DefaultAppBar';
+import { initGA, pageView } from './services/tracking';
+import { useLocation } from 'react-router-dom';
 
 import {
     Switch, Route,
@@ -28,10 +30,23 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Main = (props) => {
+const Main = () => {
     const classes = useStyles();
 
+    const location = useLocation();
     const history = useHistory();
+
+    useEffect(() => {
+        initGA();
+        pageView({ pathname: '/', search: '' });
+    }, []);
+
+    useEffect(() => {
+        console.log(location);
+        pageView(location);
+    }, [location]);
+
+
 
     let timeout = 0;
 

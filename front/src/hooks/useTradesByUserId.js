@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 
 const useTradesByUserId = (userId, page) => {
@@ -9,9 +9,9 @@ const useTradesByUserId = (userId, page) => {
     const [hasMore, setHasMore] = useState(false);
     const [_reload, _setReload] = useState({});
 
-    const reload = () => {
+    const reload = useCallback(() => {
         _setReload({});
-    }
+    }, []);
 
     useEffect(() => {
         setTrades([]);
